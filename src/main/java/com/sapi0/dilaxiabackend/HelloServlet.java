@@ -1,8 +1,14 @@
 package com.sapi0.dilaxiabackend;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+
+import javax.naming.NamingException;
 
 @WebServlet(name = "helloServlet", value = "/hello-servlet")
 public class HelloServlet extends HttpServlet {
@@ -13,13 +19,23 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
+        response.setContentType("application/json");
 
         // Hello
         PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
-        out.println("</body></html>");
+
+        try {
+            Connection conn = DataSourceManager.getDataSource().getConnection();
+            ResultSet rs = conn.prepareStatement("SELECT * FROM utente;").executeQuery();
+            rs.next();
+            out.println("success " + rs.getString(3));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (NamingException e) {
+            throw new RuntimeException(e);
+        }
+
+        out.println("error");
     }
 
     public void destroy() {
