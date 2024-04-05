@@ -1,4 +1,4 @@
-package com.sapi0.dilaxiabackend;
+package com.sapi0.dilaxiabackend.db;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -16,9 +16,7 @@ public class DataSourceManager {
     }
 
     private static DataSource createDataSource() throws NamingException {
-        InitialContext initContext = new InitialContext();
-        DataSource envContext  = (DataSource)initContext.lookup("java:/comp/env/jdbc/dilaxia");
-        return envContext;
+        return (DataSource) new InitialContext().lookup("java:/comp/env/jdbc/dilaxia");
     }
 
 }

@@ -1,16 +1,17 @@
-package com.sapi0.dilaxiabackend;
+package com.sapi0.dilaxiabackend.api;
 
 import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.sapi0.dilaxiabackend.db.DataSourceManager;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import javax.naming.NamingException;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
+@WebServlet(name = "helloServlet", value = "/test")
 public class HelloServlet extends HttpServlet {
     private String message;
 
