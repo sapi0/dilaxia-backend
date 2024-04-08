@@ -104,10 +104,6 @@
                   "password": {
                     "type": "string",
                     "example": "Aldini2017!!"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "example": "3518812141"
                   }
                 }
               }
@@ -138,10 +134,6 @@
                     "password": {
                       "type": "string",
                       "example": "Aldini2017!!"
-                    },
-                    "phone": {
-                      "type": "string",
-                      "example": "3518812141"
                     }
                   }
                 }
@@ -151,10 +143,10 @@
           "400": {
             "description": "Schema non valido (avete sbagliato il json nel body. Controllate che le chiavi siano giuste)"
           },
-          "478": {
+          "496": {
             "description": "Nome non valido (1 <= length < 50. Solo lettere A-Z_a-z e spazi)"
           },
-          "479": {
+          "497": {
             "description": "Cognome non valido (1 <= length < 50. Solo lettere A-Z_a-z e spazi)"
           },
           "498": {
@@ -213,10 +205,6 @@
           "password": {
             "type": "string",
             "example": "Aldini2017!!"
-          },
-          "phone": {
-            "type": "string",
-            "example": "3518812141"
           }
         }
       }
