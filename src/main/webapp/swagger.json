@@ -83,7 +83,7 @@
         "summary": "Registrazione (Test)",
         "description": "Endpoint per la registrazione di test. In questo caso funziona con qualsiasi dato inserito, a patto che sia valido secondo alcune specifiche descritte tra gli errori e le responses. Ovviamente essendo di test, l'utente non verrà registrato nel database, infatti non potrete utilizzarlo per il login.",
         "requestBody": {
-          "description": "Lo schema della registrazione di test. Deve contenere obbligatoriamente tutti e 5 i campi che vedi nell'esempio. I valori possono essere cambiati, non devono essere come nell'esempio, ma devono comunque rispettare le regole per ogni campo. (Per esempio l'email deve essere valida con una @, ecc...) Vedi bene tra le responses e gli errori",
+          "description": "Lo schema della registrazione di test. Deve contenere obbligatoriamente tutti e 4 i campi che vedi nell'esempio. I valori possono essere cambiati, non devono essere come nell'esempio, ma devono comunque rispettare le regole per ogni campo. (Per esempio l'email deve essere valida con una @, ecc...) Vedi bene tra le responses e gli errori",
           "content": {
             "application/json": {
               "schema": {
