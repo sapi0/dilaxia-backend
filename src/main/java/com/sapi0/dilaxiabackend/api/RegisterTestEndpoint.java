@@ -23,7 +23,7 @@ public class RegisterTestEndpoint extends HttpServlet {
         }
 
         Pattern onlyLettersPattern = Pattern.compile("^[a-zA-Z\\s]+$");
-        Pattern emailPattern = Pattern.compile("/\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*/g");
+        Pattern emailPattern = Pattern.compile("\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
         Pattern passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,50}$", Pattern.CASE_INSENSITIVE);
 
         String name = json.getString("name");
