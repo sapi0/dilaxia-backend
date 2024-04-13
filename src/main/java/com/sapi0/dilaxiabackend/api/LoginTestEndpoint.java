@@ -16,13 +16,13 @@ public class LoginTestEndpoint extends HttpServlet {
         String body = IOUtils.toString(request.getReader());
         JSONObject json = new JSONObject(body);
 
-        if(!json.has("email") || !json.has("password")) {
-            response.sendError(400, "schema non valido");
+        if(!json.has("email") || !json.has("password") || json.keySet().size() > 2) {
+            response.sendError(400, "Invalid schema provided");
             return;
         }
 
-        if(!json.getString("email").equals("sapioandrea@gmail.com") || !json.getString("password").equals("aldini2020?")) {
-            response.sendError(400, "account con email e password non trovati");
+        if(!json.getString("email").equals("sapio.andrea@gmail.com") || !json.getString("password").equals("Aldini2017!!")) {
+            response.sendError(499, "Unknown combination of email and password");
             return;
         }
 
