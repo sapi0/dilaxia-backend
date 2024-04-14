@@ -424,6 +424,19 @@
         }
       }
     },
+    "/search": {
+      "get": {
+        "tags": ["Eventi"],
+        "summary": "Cerca tra gli eventi TODO TODO TODO TODO TODO TODO TODO TODO",
+        "description": "Esegue una query di ricerca secondo alcuni parametri per restituire una lista di eventi che combaciano.",
+        "parameters": [
+
+        ],
+        "responses": {
+
+        }
+      }
+    },
     "/event": {
       "post": {
         "tags": ["Eventi"],
