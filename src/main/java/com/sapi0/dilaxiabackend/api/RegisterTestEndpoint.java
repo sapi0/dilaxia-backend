@@ -51,8 +51,10 @@ public class RegisterTestEndpoint extends HttpServlet {
             return;
         }
 
-        response.getWriter().print(new JSONObject().put("name", name).put("surname", surname).put("email", email).put("password", password).toString());
+        response.setContentType("application/json");
 
+        response.getWriter().print(new JSONObject().put("name", name).put("surname", surname).put("email", email).put("password", password).toString());
+        response.getWriter().flush();
     }
 
 }

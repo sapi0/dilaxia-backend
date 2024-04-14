@@ -26,8 +26,10 @@ public class LoginTestEndpoint extends HttpServlet {
             return;
         }
 
-        response.getWriter().print(new JSONObject().put("name", "Andrea").put("surname", "Sapio").toString());
+        response.setContentType("application/json");
 
+        response.getWriter().print(new JSONObject().put("name", "Andrea").put("surname", "Sapio").toString());
+        response.getWriter().flush();
     }
 
 }

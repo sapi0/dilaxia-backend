@@ -16,8 +16,16 @@
       "description": "Lista degli endpoint di test mentre aspettiamo che ci spieghino come fare il resto"
     },
     {
+      "name": "Accesso",
+      "description": "Lista degli endpoint legati all'accesso e all'autenticazione"
+    },
+    {
       "name": "Eventi",
-      "description": "Lista degli endpoint legati agli eventi"
+      "description": "Lista degli endpoint sulle operazioni e la lista di eventi"
+    },
+    {
+      "name": "Utente",
+      "description": "Lista degli endpoint legati all'utente"
     }
   ],
   "paths": {
@@ -162,6 +170,138 @@
         }
       }
     },
+    "/login": {
+      "post": {
+        "tags": ["Accesso"],
+        "summary": "Login utente",
+        "description": "Endpoint per effettuare il login dell'utente tramite email e password. Verrà settato un cookie sessione per identificare l'utente nelle altre pagine e le prossime chiamate agli altri endpoints",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Il login è stato effettuato correttamente senza alcun problema. L'utente è stato loggato e viene quindi settato un cookie sessionID per riconoscere l'utente nelle prossime pagine.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSuccess"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": ["Accesso"],
+        "summary": "Registrazione utente",
+        "description": "Endpoint per effettuare la registrazione dell'utente. I campi verranno controllati per sottostare a delle regole che puoi trovare tra le responses.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "La registrazione è stata effettuata correttamente senza alcun problema. L'utente è stato registrato e loggato, quindi viene settato un cookie sessionID per riconoscere l'utente nelle prossime pagine. Una risposta 200 a questo enpoint sottointende il login, proprio come se fosse una POST /login.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSuccess"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/refreshSession": {
+      "post": {
+        "deprecated": true,
+        "tags": ["Accesso"],
+        "summary": "Refresh sessione utente [NON DISPONIBILE]",
+        "description": "[AL MOMENTO NON DISPONIBILE PERCHE' POTREBBE NON ESSERE NECESSARIO. TODO] Endpoint per eliminare e ricreare un cookie sessione, quando l'utente rimane sul sito per un pò e il cookie sta ormai per scadere. Verrà settato un cookie sessione per identificare l'utente nelle altre pagine e le prossime chiamate agli altri endpoints",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": ["Accesso"],
+        "summary": "Logout utente",
+        "description": "Endpoint per effettuare il logout dell'utente, quindi la disconnessione dall'account precedentemente loggato. Verrà rimosso il cookie sessione e l'utente non sarà più identificato nelle altre pagine e le prossime chiamate agli altri endpoints",
+        "responses": {
+          "200": {
+            "description": "Il logout è stato effettuato correttamente senza alcun problema. L'utente è stato disconnesso e viene quindi rimosso il cookie sessionID per deautenticate l'utente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultSuccess"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/events": {
       "get": {
         "tags": ["Eventi"],
@@ -170,7 +310,7 @@
         "parameters": [
           {
             "name": "showPast",
-            "description": "Utilizzato per ottenere insieme agli eventi futuri anche quelli ormai finiti.",
+            "description": "Utilizzato per ottenere insieme agli eventi futuri anche quelli ormai finiti. Default: false",
             "in": "query",
             "required": false,
             "schema": {
@@ -183,7 +323,8 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "example": "50"
             }
           },
           {
@@ -192,13 +333,115 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "example": "10"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Viene ritornato un oggetto evento",
+            "description": "Viene ritornata una lista di eventi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventList"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/events/today": {
+      "get": {
+        "tags": ["Eventi"],
+        "summary": "Lista di eventi in un giorno",
+        "description": "Ottieni una lista degli eventi di un determinato giorno.",
+        "parameters": [
+          {
+            "name": "date",
+            "description": "La data del giorno di cui si vogliono ottenere gli eventi. Default: data del giorno",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "14-04-2024"
+            }
+          },
+          {
+            "name": "pageSize",
+            "description": "Utilizzato per dare un numero massimo di eventi mostrati per chiamata a questo endpoint. Serve a migliorare le performance. Con molti eventi da visualizzare si usa in combinazione con il parametro \"page\"",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": "50"
+            }
+          },
+          {
+            "name": "page",
+            "description": "Utilizzato per mostrare una certa pagina contenente \"pageSize\" eventi.",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": "10"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viene ritornata una lista di eventi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventList"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/event": {
+      "post": {
+        "tags": ["Eventi"],
+        "summary": "Crea un nuovo evento",
+        "description": "Crea un nuovo evento inserendo tutte le informazioni su di essso. Ricorda che solo i docenti possono crearne uno.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto evento. Contiene tutti i dati dell'evento modificato. Equivale a GET /event/{id}",
             "content": {
               "application/json": {
                 "schema": {
@@ -346,24 +589,83 @@
         }
       }
     },
-    "/event": {
+    "/event/{id}/subscribe": {
       "post": {
         "tags": ["Eventi"],
-        "summary": "Crea un nuovo evento",
-        "description": "Crea un nuovo evento inserendo tutte le informazioni su di essso. Ricorda che solo i docenti possono crearne uno.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EventCreate"
+        "summary": "Iscriviti ad un evento con ID",
+        "description": "Iscrivi l'utente loggato ad un determinato evento sapendo l'ID. Nota che l'utente che verrà iscritto è in base al session ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "L'ID univoco di un evento.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto evento contenente l'evento a cui ci si è iscritti. Equivale a GET /event/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
               }
             }
           },
-          "required": true
-        },
+          "401": {
+            "description": "Utente non autorizzato. Il tipo di utente non è autorizzato ad iscriversi a questo evento. Ritorna l'evento con tutti i suoi dettagli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "480": {
+            "description": "La data di scadenza per l'iscrizione a questo evento è passata. Ritorna l'evento con tutti i suoi dettagli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Eventi"],
+        "summary": "Disiscriviti da un evento con ID",
+        "description": "Disiscrivi l'utente loggato da un determinato evento sapendo l'ID. Nota che l'utente che verrà disiscritto è in base al session ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "L'ID univoco di un evento.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Viene ritornato un oggetto evento. Contiene tutti i dati dell'evento modificato. Equivale a GET /event/{id}",
+            "description": "Viene ritornato un oggetto evento contenente l'evento a cui ci si è disisiscritti. Equivale a GET /event/{id}",
             "content": {
               "application/json": {
                 "schema": {
@@ -435,6 +737,18 @@
           }
         }
       },
+      "Login": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
+      "AuthSuccess": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
       "Event": {
         "type": "object",
         "properties": {
@@ -448,6 +762,18 @@
         }
       },
       "EventCreate": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
+      "EventList": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
+      "DefaultSuccess": {
         "type": "object",
         "properties": {
 
