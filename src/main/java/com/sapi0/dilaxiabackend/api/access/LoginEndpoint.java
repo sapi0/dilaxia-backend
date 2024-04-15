@@ -1,4 +1,4 @@
-package com.sapi0.dilaxiabackend.api;
+package com.sapi0.dilaxiabackend.api.access;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.sapi0.dilaxiabackend.data.DaoFactory;

@@ -1,4 +1,4 @@
-package com.sapi0.dilaxiabackend.api;
+package com.sapi0.dilaxiabackend.api.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sapi0.dilaxiabackend.data.DaoFactory;

@@ -1,4 +1,4 @@
-package com.sapi0.dilaxiabackend.api;
+package com.sapi0.dilaxiabackend.api.test;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
