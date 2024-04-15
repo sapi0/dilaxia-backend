@@ -26,6 +26,10 @@
     {
       "name": "Utente",
       "description": "Lista degli endpoint legati all'utente"
+    },
+    {
+      "name": "Admin",
+      "description": "Lista degli endpoint riservati al controllo amministrativo e non accessibili dagli utenti"
     }
   ],
   "paths": {
@@ -252,6 +256,11 @@
         "tags": ["Accesso"],
         "summary": "Refresh sessione utente [NON DISPONIBILE]",
         "description": "[AL MOMENTO NON DISPONIBILE PERCHE' POTREBBE NON ESSERE NECESSARIO. TODO] Endpoint per eliminare e ricreare un cookie sessione, quando l'utente rimane sul sito per un pò e il cookie sta ormai per scadere. Verrà settato un cookie sessione per identificare l'utente nelle altre pagine e le prossime chiamate agli altri endpoints",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -278,6 +287,11 @@
         "tags": ["Accesso"],
         "summary": "Logout utente",
         "description": "Endpoint per effettuare il logout dell'utente, quindi la disconnessione dall'account precedentemente loggato. Verrà rimosso il cookie sessione e l'utente non sarà più identificato nelle altre pagine e le prossime chiamate agli altri endpoints",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Il logout è stato effettuato correttamente senza alcun problema. L'utente è stato disconnesso e viene quindi rimosso il cookie sessionID per deautenticate l'utente.",
@@ -307,6 +321,14 @@
         "tags": ["Eventi"],
         "summary": "Lista di eventi",
         "description": "Ottieni la lista completa di tutti i prossimi eventi.",
+        "security": [
+          {
+            "SessionCookie": []
+          },
+          {
+            "AdminKey": []
+          }
+        ],
         "parameters": [
           {
             "name": "showPast",
@@ -314,7 +336,8 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "example": true
             }
           },
           {
@@ -324,7 +347,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "example": "50"
+              "example": 50
             }
           },
           {
@@ -334,7 +357,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "example": "10"
+              "example": 10
             }
           }
         ],
@@ -367,6 +390,14 @@
         "tags": ["Eventi"],
         "summary": "Lista di eventi in un giorno",
         "description": "Ottieni una lista degli eventi di un determinato giorno.",
+        "security": [
+          {
+            "SessionCookie": []
+          },
+          {
+            "AdminKey": []
+          }
+        ],
         "parameters": [
           {
             "name": "date",
@@ -386,7 +417,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "example": "50"
+              "example": 50
             }
           },
           {
@@ -396,7 +427,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "example": "10"
+              "example": 10
             }
           }
         ],
@@ -424,16 +455,72 @@
         }
       }
     },
-    "/search": {
+    "/events/search": {
       "get": {
         "tags": ["Eventi"],
-        "summary": "Cerca tra gli eventi TODO TODO TODO TODO TODO TODO TODO TODO",
+        "summary": "Cerca tra gli eventi",
         "description": "Esegue una query di ricerca secondo alcuni parametri per restituire una lista di eventi che combaciano.",
+        "security": [
+          {
+            "SessionCookie": []
+          },
+          {
+            "AdminKey": []
+          }
+        ],
         "parameters": [
-
+          {
+            "name": "pageSize",
+            "description": "Utilizzato per dare un numero massimo di eventi mostrati per chiamata a questo endpoint. Serve a migliorare le performance. Con molti eventi da visualizzare si usa in combinazione con il parametro \"page\"",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 50
+            }
+          },
+          {
+            "name": "page",
+            "description": "Utilizzato per mostrare una certa pagina contenente \"pageSize\" eventi.",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          },
+          {
+            "name": "query",
+            "description": "Utilizzato per definire le keywords di ricerca",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Sport calcio"
+            }
+          }
         ],
         "responses": {
-
+          "200": {
+            "description": "Viene ritornata una lista di eventi pertinenti alla query di ricerca",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventList"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -442,6 +529,14 @@
         "tags": ["Eventi"],
         "summary": "Crea un nuovo evento",
         "description": "Crea un nuovo evento inserendo tutte le informazioni su di essso. Ricorda che solo i docenti possono crearne uno.",
+        "security": [
+          {
+            "SessionCookie": []
+          },
+          {
+            "AdminKey": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -481,6 +576,14 @@
         "tags": ["Eventi"],
         "summary": "Informazioni su un evento con ID",
         "description": "Ottieni tutte le informazioni riguardanti un determinato evento sapendo il suo ID univoco.",
+        "security": [
+          {
+            "SessionCookie": []
+          },
+          {
+            "AdminKey": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -519,6 +622,14 @@
         "tags": ["Eventi"],
         "summary": "Modifica un evento con ID",
         "description": "Modifica le informazioni riguardanti un determinato evento esistente sapendo il suo ID univoco.",
+        "security": [
+          {
+            "SessionCookie": []
+          },
+          {
+            "AdminKey": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -567,6 +678,14 @@
         "tags": ["Eventi"],
         "summary": "Elimina un evento con ID",
         "description": "Elimina un determinato evento sapendo il suo ID univoco.",
+        "security": [
+          {
+            "SessionCookie": []
+          },
+          {
+            "AdminKey": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -602,11 +721,64 @@
         }
       }
     },
+    "/event/{id}/users": {
+      "get": {
+        "tags": ["Eventi"],
+        "summary": "Lista utenti iscritti ad un evento con ID",
+        "description": "Ottieni la lista di utenti iscritti ad un determinato evento sapendo il suo ID univoco.",
+        "security": [
+          {
+            "SessionCookie": []
+          },
+          {
+            "AdminKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "L'ID univoco di un evento.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viene ritornato una lista di utenti",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserList"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/event/{id}/subscribe": {
       "post": {
         "tags": ["Eventi"],
         "summary": "Iscriviti ad un evento con ID",
         "description": "Iscrivi l'utente loggato ad un determinato evento sapendo l'ID. Nota che l'utente che verrà iscritto è in base al session ID.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -665,6 +837,14 @@
         "tags": ["Eventi"],
         "summary": "Disiscriviti da un evento con ID",
         "description": "Disiscrivi l'utente loggato da un determinato evento sapendo l'ID. Nota che l'utente che verrà disiscritto è in base al session ID.",
+        "security": [
+          {
+            "SessionCookie": []
+          },
+          {
+            "AdminKey": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -699,9 +879,437 @@
           }
         }
       }
+    },
+    "/me": {
+      "get": {
+        "tags": ["Utente"],
+        "summary": "Informazioni sul proprio profilo utente",
+        "description": "Ottieni tutte le informazioni riguardanti il proprio profilo utente.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto utente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserMe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Utente"],
+        "summary": "Modifica i propri dati utente",
+        "description": "Modifica le informazioni riguardanti il proprio utente.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto utente. Contiene tutti i dati dell'utente modificato. Equivale a GET /user/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserMe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Utente", "Admin"],
+        "summary": "Elimina il proprio profilo utente [ADMIN]",
+        "description": "Elimina il proprio profilo utente.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto utente contenente l'utente che è stato appena eliminato. Equivale a GET /user/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserMe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/picture": {
+      "get": {
+        "tags": ["Utente"],
+        "summary": "Ottiene la propria immagine profilo TODO TODO TODO",
+        "description": "Mostra l'immagine profilo del proprio profilo utente.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto utente. Contiene tutti i dati dell'utente modificato. Equivale a GET /user/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserMe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Utente"],
+        "summary": "Imposta la propria immagine profilo TODO TODO TODO",
+        "description": "Modifica o imposta per la prima volta l'immagine profilo del proprio profilo utente.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto utente. Contiene tutti i dati dell'utente modificato. Equivale a GET /user/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserMe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Utente"],
+        "summary": "Elimina la propria immagine profilo TODO TODO TODO",
+        "description": "Elimina l'immagine profilo del proprio profilo utente. Verrà impostata quella di default.",
+        "security": [
+          {
+            "SessionCookie": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto utente. Contiene tutti i dati dell'utente modificato. Equivale a GET /user/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserMe"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Utente", "Admin"],
+        "summary": "Lista di utenti [ADMIN]",
+        "description": "Ottieni la lista completa di tutti gli utenti.",
+        "security": [
+          {
+            "AdminKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pageSize",
+            "description": "Utilizzato per dare un numero massimo di utenti mostrati per chiamata a questo endpoint. Serve a migliorare le performance. Con molti utenti da visualizzare si usa in combinazione con il parametro \"page\"",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 50
+            }
+          },
+          {
+            "name": "page",
+            "description": "Utilizzato per mostrare una certa pagina contenente \"pageSize\" utenti.",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viene ritornata una lista di utenti",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserList"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "tags": ["Utente"],
+        "summary": "Informazioni su un utente con ID",
+        "description": "Ottieni tutte le informazioni riguardanti un determinato utente sapendo il suo ID univoco.",
+        "security": [
+          {
+            "SessionCookie": []
+          },
+          {
+            "AdminKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "L'ID univoco di un utente.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto utente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Utente", "Admin"],
+        "summary": "Modifica i dati utente con ID [ADMIN]",
+        "description": "Modifica le informazioni riguardanti un determinato utente sapendo il suo ID univoco.",
+        "security": [
+          {
+            "AdminKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "L'ID univoco di un utente.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto utente. Contiene tutti i dati dell'utente modificato. Equivale a GET /user/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Utente", "Admin"],
+        "summary": "Elimina un utente con ID [ADMIN]",
+        "description": "Elimina un determinato utente sapendo il suo ID univoco.",
+        "security": [
+          {
+            "AdminKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "L'ID univoco di un utente.",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Viene ritornato un oggetto utente contenente l'utente che è stato appena eliminato. Equivale a GET /user/{id}",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
+    "securitySchemes": {
+      "AdminKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-KEY"
+      },
+      "SessionCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "JSESSIONID"
+      }
+    },
     "schemas": {
       "LoginTestRequest": {
         "type": "object",
@@ -753,14 +1361,83 @@
       "Login": {
         "type": "object",
         "properties": {
-
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "sapio.andrea@gmail.com",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "Aldini2017!!",
+            "required": true
+          }
+        }
+      },
+      "Register": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Andrea",
+            "required": true
+          },
+          "surname": {
+            "type": "string",
+            "example": "Sapio",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "sapio.andrea@gmail.com",
+            "required": true
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "Aldini2017!!",
+            "required": true
+          }
         }
       },
       "AuthSuccess": {
         "type": "object",
         "properties": {
-
+          "id": {
+            "type": "integer",
+            "example": 37,
+            "required": true
+          },
+          "sessionCookie": {
+            "type": "string",
+            "example": "U2Ugc3RhaSBsZWdnZW5kbyBxdWVzdG8gc2VpIHVuIG1hdHRvIGluZm9nbmF0byBhaGFoYSA6KQ==",
+            "required": true
+          }
         }
+      },
+      "Filter": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "example": "Sport calcio",
+            "required": false
+          },
+          "showPast": {
+            "type": "boolean",
+            "example": true,
+            "required": false
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "14-04-2024",
+            "required": false
+          }
+        },
+        "required": false
       },
       "Event": {
         "type": "object",
@@ -783,7 +1460,84 @@
       "EventList": {
         "type": "object",
         "properties": {
+          "totalSize": {
+            "type": "integer",
+            "example": 734,
+            "required": true
+          },
+          "pageCount": {
+            "type": "integer",
+            "example": 15,
+            "required": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "example": 50,
+            "required": true
+          },
+          "page": {
+            "type": "integer",
+            "example": 1,
+            "required": true
+          },
+          "filters": {
+            "$ref": "#/components/schemas/Filter"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Event"
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
 
+        }
+      },
+      "UserUpdate": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
+      "UserMe": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
+      "UserList": {
+        "type": "object",
+        "properties": {
+          "totalSize": {
+            "type": "integer",
+            "example": 734,
+            "required": true
+          },
+          "pageCount": {
+            "type": "integer",
+            "example": 15,
+            "required": true
+          },
+          "pageSize": {
+            "type": "integer",
+            "example": 50,
+            "required": true
+          },
+          "page": {
+            "type": "integer",
+            "example": 1,
+            "required": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
         }
       },
       "DefaultSuccess": {
