@@ -1,5 +1,6 @@
 package com.sapi0.dilaxiabackend.api;
 
+import com.sapi0.dilaxiabackend.exception.EndpointException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,7 +39,12 @@ public abstract class JsonEndpoint extends HttpServlet {
 
         HashMap<String, String> headers = findHeaders(request);
 
-        JSONObject result = get(request, response, headers);
+        JSONObject result = null;
+        try {
+            result = get(request, response, headers);
+        } catch (EndpointException e) {
+            result = new JSONObject().put("error", e.getMessage());
+        }
 
         response.getWriter().print(result.toString());
         response.getWriter().flush();
@@ -53,7 +59,12 @@ public abstract class JsonEndpoint extends HttpServlet {
 
         HashMap<String, String> headers = findHeaders(request);
 
-        JSONObject result = post(request, response, bodyObject, headers);
+        JSONObject result = null;
+        try {
+            result = post(request, response, bodyObject, headers);
+        } catch (EndpointException e) {
+            result = new JSONObject().put("error", e.getMessage());
+        }
 
         response.getWriter().print(result.toString());
         response.getWriter().flush();
@@ -68,7 +79,12 @@ public abstract class JsonEndpoint extends HttpServlet {
 
         HashMap<String, String> headers = findHeaders(request);
 
-        JSONObject result = put(request, response, bodyObject, headers);
+        JSONObject result = null;
+        try {
+            result = put(request, response, bodyObject, headers);
+        } catch (EndpointException e) {
+            result = new JSONObject().put("error", e.getMessage());
+        }
 
         response.getWriter().print(result.toString());
         response.getWriter().flush();
@@ -83,22 +99,27 @@ public abstract class JsonEndpoint extends HttpServlet {
 
         HashMap<String, String> headers = findHeaders(request);
 
-        JSONObject result = delete(request, response, bodyObject, headers);
+        JSONObject result = null;
+        try {
+            result = delete(request, response, bodyObject, headers);
+        } catch (EndpointException e) {
+            result = new JSONObject().put("error", e.getMessage());
+        }
 
         response.getWriter().print(result.toString());
         response.getWriter().flush();
     }
 
-    protected JSONObject get(HttpServletRequest request, HttpServletResponse response, HashMap<String, String> headers) {
+    protected JSONObject get(HttpServletRequest request, HttpServletResponse response, HashMap<String, String> headers) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
-    protected JSONObject post(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) {
+    protected JSONObject post(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
-    protected JSONObject put(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) {
+    protected JSONObject put(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
-    protected JSONObject delete(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) {
+    protected JSONObject delete(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
 
