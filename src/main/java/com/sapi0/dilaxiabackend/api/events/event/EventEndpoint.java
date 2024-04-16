@@ -1,4 +1,4 @@
-package com.sapi0.dilaxiabackend.api.access;
+package com.sapi0.dilaxiabackend.api.events.event;
 
 import com.sapi0.dilaxiabackend.api.BasicJsonEndpoint;
 import jakarta.servlet.annotation.WebServlet;
@@ -6,8 +6,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-@WebServlet("/login")
-public class LoginEndpoint extends BasicJsonEndpoint {
+@WebServlet("/event")
+public class EventEndpoint extends BasicJsonEndpoint {
 
     @Override
     public void init() {

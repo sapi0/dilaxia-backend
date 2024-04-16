@@ -1,4 +1,4 @@
-package com.sapi0.dilaxiabackend.api.access;
+package com.sapi0.dilaxiabackend.api.events.event;
 
 import com.sapi0.dilaxiabackend.api.BasicJsonEndpoint;
 import jakarta.servlet.annotation.WebServlet;
@@ -6,8 +6,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-@WebServlet("/login")
-public class LoginEndpoint extends BasicJsonEndpoint {
+@WebServlet("/event/{id}/users")
+public class EventUsersEndpoint extends BasicJsonEndpoint {
 
     @Override
     public void init() {
@@ -20,8 +20,8 @@ public class LoginEndpoint extends BasicJsonEndpoint {
     }
 
     @Override
-    protected JSONObject post(JSONObject bodyObject, HashMap<String, String> headers) {
-        return super.post(bodyObject, headers);
+    protected JSONObject get(HashMap<String, String> headers) {
+        return super.get(headers);
     }
 
 }

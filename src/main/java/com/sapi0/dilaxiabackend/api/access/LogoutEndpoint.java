@@ -6,8 +6,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-@WebServlet("/login")
-public class LoginEndpoint extends BasicJsonEndpoint {
+@WebServlet("/logout")
+public class LogoutEndpoint extends BasicJsonEndpoint {
 
     @Override
     public void init() {

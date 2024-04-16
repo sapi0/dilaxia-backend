@@ -6,8 +6,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-@WebServlet("/user/{id}")
-public class UserEndpoint  extends BasicJsonEndpoint {
+@WebServlet("/users")
+public class UsersEndpoint  extends BasicJsonEndpoint {
 
     @Override
     public void init() {
@@ -22,16 +22,6 @@ public class UserEndpoint  extends BasicJsonEndpoint {
     @Override
     protected JSONObject get(HashMap<String, String> headers) {
         return super.get(headers);
-    }
-
-    @Override
-    protected JSONObject put(JSONObject bodyObject, HashMap<String, String> headers) {
-        return super.put(bodyObject, headers);
-    }
-
-    @Override
-    protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers) {
-        return super.delete(bodyObject, headers);
     }
 
 }
