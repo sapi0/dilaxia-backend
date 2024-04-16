@@ -1,6 +1,7 @@
 package com.sapi0.dilaxiabackend.api;
 
 import com.sapi0.dilaxiabackend.exception.EndpointException;
+import com.sapi0.dilaxiabackend.exception.QueryParamParseException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,6 +34,25 @@ public abstract class JsonEndpoint extends HttpServlet {
         return headers;
     }
 
+    private HashMap<String, String> findQueryParams(HttpServletRequest request) throws QueryParamParseException {
+        HashMap<String, String> queries = new HashMap<>();
+
+        String queryString = request.getQueryString();
+
+        String[] params = queryString.split("&");
+
+        for(String param : params) {
+            try {
+                String[] data = param.split("=");
+                queries.put(data[0], data[1]);
+            } catch(Exception e) {
+                throw new QueryParamParseException("Failed to parse query params! Bad param: " + param);
+            }
+        }
+
+        return queries;
+    }
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
@@ -41,7 +61,7 @@ public abstract class JsonEndpoint extends HttpServlet {
 
         JSONObject result = null;
         try {
-            result = get(request, response, headers);
+            result = get(request, response, headers, findQueryParams(request));
         } catch (EndpointException e) {
             result = new JSONObject().put("error", e.getMessage());
         }
@@ -61,7 +81,7 @@ public abstract class JsonEndpoint extends HttpServlet {
 
         JSONObject result = null;
         try {
-            result = post(request, response, bodyObject, headers);
+            result = post(request, response, bodyObject, headers, findQueryParams(request));
         } catch (EndpointException e) {
             result = new JSONObject().put("error", e.getMessage());
         }
@@ -81,7 +101,7 @@ public abstract class JsonEndpoint extends HttpServlet {
 
         JSONObject result = null;
         try {
-            result = put(request, response, bodyObject, headers);
+            result = put(request, response, bodyObject, headers, findQueryParams(request));
         } catch (EndpointException e) {
             result = new JSONObject().put("error", e.getMessage());
         }
@@ -101,7 +121,7 @@ public abstract class JsonEndpoint extends HttpServlet {
 
         JSONObject result = null;
         try {
-            result = delete(request, response, bodyObject, headers);
+            result = delete(request, response, bodyObject, headers, findQueryParams(request));
         } catch (EndpointException e) {
             result = new JSONObject().put("error", e.getMessage());
         }
@@ -110,16 +130,16 @@ public abstract class JsonEndpoint extends HttpServlet {
         response.getWriter().flush();
     }
 
-    protected JSONObject get(HttpServletRequest request, HttpServletResponse response, HashMap<String, String> headers) throws EndpointException {
+    protected JSONObject get(HttpServletRequest request, HttpServletResponse response, HashMap<String, String> headers, HashMap<String, String> queryParams) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
-    protected JSONObject post(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) throws EndpointException {
+    protected JSONObject post(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
-    protected JSONObject put(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) throws EndpointException {
+    protected JSONObject put(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
-    protected JSONObject delete(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) throws EndpointException {
+    protected JSONObject delete(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
 

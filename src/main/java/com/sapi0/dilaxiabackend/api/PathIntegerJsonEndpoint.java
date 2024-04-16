@@ -24,34 +24,34 @@ public abstract class PathIntegerJsonEndpoint extends JsonEndpoint {
     }
 
     @Override
-    protected JSONObject get(HttpServletRequest request, HttpServletResponse response, HashMap<String, String> headers) throws PathParamParseException {
-        return get(headers, extractPathParam(request));
+    protected JSONObject get(HttpServletRequest request, HttpServletResponse response, HashMap<String, String> headers, HashMap<String, String> queryParams) throws PathParamParseException {
+        return get(headers, queryParams, extractPathParam(request));
     }
-    protected JSONObject get(HashMap<String, String> headers, int pathParam) {
+    protected JSONObject get(HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
 
     @Override
-    protected JSONObject post(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) throws PathParamParseException {
-        return post(bodyObject, headers, extractPathParam(request));
+    protected JSONObject post(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws PathParamParseException {
+        return post(bodyObject, headers, queryParams, extractPathParam(request));
     }
-    protected JSONObject post(JSONObject bodyObject, HashMap<String, String> headers, int pathParam) {
+    protected JSONObject post(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
 
     @Override
-    protected JSONObject put(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) throws PathParamParseException {
-        return put(bodyObject, headers, extractPathParam(request));
+    protected JSONObject put(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws PathParamParseException {
+        return put(bodyObject, headers, queryParams, extractPathParam(request));
     }
-    protected JSONObject put(JSONObject bodyObject, HashMap<String, String> headers, int pathParam) {
+    protected JSONObject put(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
 
     @Override
-    protected JSONObject delete(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers) throws PathParamParseException {
-        return delete(bodyObject, headers, extractPathParam(request));
+    protected JSONObject delete(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws PathParamParseException {
+        return delete(bodyObject, headers, queryParams, extractPathParam(request));
     }
-    protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, int pathParam) {
+    protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
 

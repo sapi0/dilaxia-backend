@@ -20,8 +20,8 @@ public class EventEndpoint extends BasicJsonEndpoint {
     }
 
     @Override
-    protected JSONObject post(JSONObject bodyObject, HashMap<String, String> headers) {
-        return super.post(bodyObject, headers);
+    protected JSONObject post(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) {
+        return super.post(bodyObject, headers, queryParams);
     }
 
 }

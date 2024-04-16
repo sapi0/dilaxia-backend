@@ -20,8 +20,8 @@ public class EventsSearchEndpoint extends BasicJsonEndpoint {
     }
 
     @Override
-    protected JSONObject get(HashMap<String, String> headers) {
-        return super.get(headers);
+    protected JSONObject get(HashMap<String, String> headers, HashMap<String, String> queryParams) {
+        return super.get(headers, queryParams);
     }
 
 }

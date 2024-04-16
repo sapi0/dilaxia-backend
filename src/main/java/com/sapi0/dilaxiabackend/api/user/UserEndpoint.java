@@ -20,18 +20,18 @@ public class UserEndpoint  extends BasicJsonEndpoint {
     }
 
     @Override
-    protected JSONObject get(HashMap<String, String> headers) {
-        return super.get(headers);
+    protected JSONObject get(HashMap<String, String> headers, HashMap<String, String> queryParams) {
+        return super.get(headers, queryParams);
     }
 
     @Override
-    protected JSONObject put(JSONObject bodyObject, HashMap<String, String> headers) {
-        return super.put(bodyObject, headers);
+    protected JSONObject put(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) {
+        return super.put(bodyObject, headers, queryParams);
     }
 
     @Override
-    protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers) {
-        return super.delete(bodyObject, headers);
+    protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) {
+        return super.delete(bodyObject, headers, queryParams);
     }
 
 }
