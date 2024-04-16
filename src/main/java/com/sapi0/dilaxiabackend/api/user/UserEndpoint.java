@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-@WebServlet("/user/{id}")
+@WebServlet("/path/user/{id}")
 public class UserEndpoint  extends BasicJsonEndpoint {
 
     @Override

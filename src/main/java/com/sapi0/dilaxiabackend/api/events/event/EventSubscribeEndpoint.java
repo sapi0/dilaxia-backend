@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-@WebServlet("/event/{id}/subscribe")
+@WebServlet("/path/event/subscribe/{id}")
 public class EventSubscribeEndpoint extends BasicJsonEndpoint {
 
     @Override
