@@ -28,6 +28,10 @@
       "description": "Lista degli endpoint legati all'utente"
     },
     {
+      "name": "PathParam",
+      "description": "Lista di endpoint che hanno bisogno di un parametro all'interno dell'endpoint: i cosiddetti Path Params."
+    },
+    {
       "name": "Admin",
       "description": "Lista degli endpoint riservati al controllo amministrativo e non accessibili dagli utenti"
     }
@@ -571,9 +575,9 @@
         }
       }
     },
-    "/event/{id}": {
+    "/path/event/{id}": {
       "get": {
-        "tags": ["Eventi"],
+        "tags": ["Eventi", "PathParam"],
         "summary": "Informazioni su un evento con ID",
         "description": "Ottieni tutte le informazioni riguardanti un determinato evento sapendo il suo ID univoco.",
         "security": [
@@ -619,7 +623,7 @@
         }
       },
       "put": {
-        "tags": ["Eventi"],
+        "tags": ["Eventi", "PathParam"],
         "summary": "Modifica un evento con ID",
         "description": "Modifica le informazioni riguardanti un determinato evento esistente sapendo il suo ID univoco.",
         "security": [
@@ -675,7 +679,7 @@
         }
       },
       "delete": {
-        "tags": ["Eventi"],
+        "tags": ["Eventi", "PathParam"],
         "summary": "Elimina un evento con ID",
         "description": "Elimina un determinato evento sapendo il suo ID univoco.",
         "security": [
@@ -721,9 +725,9 @@
         }
       }
     },
-    "/event/{id}/users": {
+    "/path/event/users/{id}": {
       "get": {
-        "tags": ["Eventi"],
+        "tags": ["Eventi", "PathParam"],
         "summary": "Lista utenti iscritti ad un evento con ID",
         "description": "Ottieni la lista di utenti iscritti ad un determinato evento sapendo il suo ID univoco.",
         "security": [
@@ -769,9 +773,9 @@
         }
       }
     },
-    "/event/{id}/subscribe": {
+    "/path/event/subscribe/{id}": {
       "post": {
-        "tags": ["Eventi"],
+        "tags": ["Eventi", "PathParam"],
         "summary": "Iscriviti ad un evento con ID",
         "description": "Iscrivi l'utente loggato ad un determinato evento sapendo l'ID. Nota che l'utente che verrà iscritto è in base al session ID.",
         "security": [
@@ -834,7 +838,7 @@
         }
       },
       "delete": {
-        "tags": ["Eventi"],
+        "tags": ["Eventi", "PathParam"],
         "summary": "Disiscriviti da un evento con ID",
         "description": "Disiscrivi l'utente loggato da un determinato evento sapendo l'ID. Nota che l'utente che verrà disiscritto è in base al session ID.",
         "security": [
@@ -1152,9 +1156,9 @@
         }
       }
     },
-    "/user/{id}": {
+    "/path/user/{id}": {
       "get": {
-        "tags": ["Utente"],
+        "tags": ["Utente", "PathParam"],
         "summary": "Informazioni su un utente con ID",
         "description": "Ottieni tutte le informazioni riguardanti un determinato utente sapendo il suo ID univoco.",
         "security": [
@@ -1200,7 +1204,7 @@
         }
       },
       "put": {
-        "tags": ["Utente", "Admin"],
+        "tags": ["Utente", "Admin", "PathParam"],
         "summary": "Modifica i dati utente con ID [ADMIN]",
         "description": "Modifica le informazioni riguardanti un determinato utente sapendo il suo ID univoco.",
         "security": [
@@ -1253,7 +1257,7 @@
         }
       },
       "delete": {
-        "tags": ["Utente", "Admin"],
+        "tags": ["Utente", "Admin", "PathParam"],
         "summary": "Elimina un utente con ID [ADMIN]",
         "description": "Elimina un determinato utente sapendo il suo ID univoco.",
         "security": [
