@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name="register", value="/register")
+@WebServlet(name="register", value="/registerOLD")
 public class RegisterEndpointOLD extends HttpServlet {
 
     private UserDaoImpl dao;

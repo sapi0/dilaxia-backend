@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name="login", value="/login")
+@WebServlet(name="login", value="/loginOLD")
 public class LoginEndpointOLD extends HttpServlet {
 
     private UserDaoImpl dao;

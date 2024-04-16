@@ -13,7 +13,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "user", value = "/user")
+@WebServlet(name = "user", value = "/userOLD")
 public class UserEndpointOLD extends HttpServlet {
 
     private UserDaoImpl dao;

@@ -39,14 +39,16 @@ public abstract class JsonEndpoint extends HttpServlet {
 
         String queryString = request.getQueryString();
 
-        String[] params = queryString.split("&");
+        if(queryString != null) {
+            String[] params = queryString.split("&");
 
-        for(String param : params) {
-            try {
-                String[] data = param.split("=");
-                queries.put(data[0], data[1]);
-            } catch(Exception e) {
-                throw new QueryParamParseException("Failed to parse query params! Bad param: " + param);
+            for (String param : params) {
+                try {
+                    String[] data = param.split("=");
+                    queries.put(data[0], data[1]);
+                } catch (Exception e) {
+                    throw new QueryParamParseException("Failed to parse query params! Bad param: " + param);
+                }
             }
         }
 
