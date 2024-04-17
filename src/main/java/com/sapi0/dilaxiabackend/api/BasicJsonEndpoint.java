@@ -1,6 +1,7 @@
 package com.sapi0.dilaxiabackend.api;
 
 import com.sapi0.dilaxiabackend.exception.EndpointException;
+import com.sapi0.dilaxiabackend.exception.IllegalParamException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -46,6 +47,12 @@ public abstract class BasicJsonEndpoint extends JsonEndpoint {
     }
     protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, HttpSession session) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
+    }
+
+    protected String assertParam(String param, int minLen, int maxLen, int errorCode) throws IllegalParamException {
+        if(param.length() < minLen) throw new IllegalParamException(errorCode, "Param too short");
+        if(param.length() > maxLen) throw new IllegalParamException(errorCode, "Param too long");
+        return param;
     }
 
 }
