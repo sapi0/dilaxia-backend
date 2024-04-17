@@ -1,5 +1,6 @@
 package com.sapi0.dilaxiabackend.api;
 
+import com.sapi0.dilaxiabackend.exception.EndpointException;
 import com.sapi0.dilaxiabackend.exception.PathParamParseException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,34 +25,34 @@ public abstract class PathIntegerJsonEndpoint extends JsonEndpoint {
     }
 
     @Override
-    protected JSONObject get(HttpServletRequest request, HttpServletResponse response, HashMap<String, String> headers, HashMap<String, String> queryParams) throws PathParamParseException {
+    protected JSONObject get(HttpServletRequest request, HttpServletResponse response, HashMap<String, String> headers, HashMap<String, String> queryParams) throws EndpointException {
         return get(headers, queryParams, extractPathParam(request));
     }
-    protected JSONObject get(HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) {
+    protected JSONObject get(HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
 
     @Override
-    protected JSONObject post(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws PathParamParseException {
+    protected JSONObject post(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws EndpointException {
         return post(bodyObject, headers, queryParams, extractPathParam(request));
     }
-    protected JSONObject post(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) {
+    protected JSONObject post(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
 
     @Override
-    protected JSONObject put(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws PathParamParseException {
+    protected JSONObject put(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws EndpointException {
         return put(bodyObject, headers, queryParams, extractPathParam(request));
     }
-    protected JSONObject put(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) {
+    protected JSONObject put(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
 
     @Override
-    protected JSONObject delete(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws PathParamParseException {
+    protected JSONObject delete(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws EndpointException {
         return delete(bodyObject, headers, queryParams, extractPathParam(request));
     }
-    protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) {
+    protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam) throws EndpointException {
         return NOT_IMPLEMENTED_ERROR_JSON;
     }
 
