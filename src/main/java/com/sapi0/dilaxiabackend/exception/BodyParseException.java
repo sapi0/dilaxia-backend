@@ -5,8 +5,8 @@ public class BodyParseException extends EndpointException {
     public BodyParseException() {
         super();
     }
-    public BodyParseException(String message) {
-        super(message);
+    public BodyParseException(int statusCode, String message) {
+        super(statusCode, message);
     }
 
 }

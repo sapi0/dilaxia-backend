@@ -5,8 +5,8 @@ public class PathParamParseException extends EndpointException {
     public PathParamParseException() {
         super();
     }
-    public PathParamParseException(String message) {
-        super(message);
+    public PathParamParseException(int statusCode, String message) {
+        super(statusCode, message);
     }
 
 }

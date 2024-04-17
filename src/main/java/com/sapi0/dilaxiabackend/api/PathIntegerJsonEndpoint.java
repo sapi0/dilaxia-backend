@@ -20,7 +20,7 @@ public abstract class PathIntegerJsonEndpoint extends JsonEndpoint {
             String s = pathInfo.split("/")[1];
             return Integer.parseInt(s);
         } catch(Exception e) {
-            throw new PathParamParseException("Invalid path param");
+            throw new PathParamParseException(499, "Invalid path param");
         }
     }
 

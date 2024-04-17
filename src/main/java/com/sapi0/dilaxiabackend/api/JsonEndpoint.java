@@ -14,7 +14,8 @@ import java.util.HashMap;
 
 public abstract class JsonEndpoint extends HttpServlet {
 
-    protected static final JSONObject NOT_IMPLEMENTED_ERROR_JSON = new JSONObject().put("error", "Not implemented.");
+    protected static final JSONObject DEFAULT_SUCCESS_JSON = new JSONObject().put("message", "Success!");
+    protected static final JSONObject NOT_IMPLEMENTED_ERROR_JSON = new JSONObject().put("error", "Not implemented.!");
 
     public abstract void init();
     public abstract void destroy();
@@ -47,7 +48,7 @@ public abstract class JsonEndpoint extends HttpServlet {
                     String[] data = param.split("=");
                     queries.put(data[0], data[1]);
                 } catch (Exception e) {
-                    throw new QueryParamParseException("Failed to parse query params! Bad param: " + param);
+                    throw new QueryParamParseException(499, "Failed to parse query params! Bad param: " + param);
                 }
             }
         }
@@ -65,6 +66,7 @@ public abstract class JsonEndpoint extends HttpServlet {
         try {
             result = get(request, response, headers, findQueryParams(request));
         } catch (EndpointException e) {
+            response.setStatus(e.statusCode);
             result = new JSONObject().put("error", e.getMessage());
         }
 
@@ -74,7 +76,7 @@ public abstract class JsonEndpoint extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
+        response.setContentType("application/json");System.out.println("grfiehousduahsòizeprfdhvuaisez");
 
         String rawBody = IOUtils.toString(request.getReader());
         JSONObject bodyObject = new JSONObject(rawBody);
@@ -85,9 +87,9 @@ public abstract class JsonEndpoint extends HttpServlet {
         try {
             result = post(request, response, bodyObject, headers, findQueryParams(request));
         } catch (EndpointException e) {
-            result = new JSONObject().put("error", e.getMessage());
+            result = new JSONObject().put("errassaor", e.getMessage());
         }
-
+        System.out.println("arriva qui");
         response.getWriter().print(result.toString());
         response.getWriter().flush();
     }

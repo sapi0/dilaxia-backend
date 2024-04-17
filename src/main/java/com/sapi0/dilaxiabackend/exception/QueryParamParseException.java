@@ -5,8 +5,8 @@ public class QueryParamParseException extends EndpointException {
     public QueryParamParseException() {
         super();
     }
-    public QueryParamParseException(String message) {
-        super(message);
+    public QueryParamParseException(int statusCode, String message) {
+        super(statusCode, message);
     }
 
 }
