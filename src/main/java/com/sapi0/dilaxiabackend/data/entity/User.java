@@ -1,6 +1,6 @@
 package com.sapi0.dilaxiabackend.data.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class User {
 
@@ -9,21 +9,21 @@ public class User {
     public String surname;
     public String email;
     public String hash;
-    public Date birth;
     public int type;
+    public Timestamp created;
 
-    public User() {
+    public User(int _id, String name, String surname, String email, String hash, int type) {
 
     }
 
-    public User(int id, String name, String surname, String email, String hash, Date birth, int type) {
+    public User(int id, String name, String surname, String email, String hash, int type, Timestamp created) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.hash = hash;
-        this.birth = birth;
         this.type = type;
+        this.created = created;
     }
 
     public int getId() {
@@ -66,14 +66,6 @@ public class User {
         this.hash = hash;
     }
 
-    public Date getBirth() {
-        return birth;
-    }
-
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
-
     public int getType() {
         return type;
     }
@@ -81,4 +73,8 @@ public class User {
     public void setType(int type) {
         this.type = type;
     }
+
+    public Timestamp getCreated() {return created;}
+
+    public void setCreated(Timestamp created) {this.created = created;}
 }
