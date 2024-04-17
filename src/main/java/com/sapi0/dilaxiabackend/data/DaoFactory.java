@@ -8,7 +8,10 @@ import java.sql.SQLException;
 
 public class DaoFactory {
 
-    public static final DaoFactory instance = new DaoFactory();
+    public static final DaoFactory instance;
+    static {
+        instance = new DaoFactory();
+    }
 
     private UserDaoImpl userDao;
 

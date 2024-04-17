@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 public class Mapper {
 
-    private static ObjectMapper mapper = new ObjectMapper();
+    private final static ObjectMapper mapper = new ObjectMapper();
 
     public static String asJSON(Object obj) throws JsonProcessingException {
         return mapper.writeValueAsString(obj);

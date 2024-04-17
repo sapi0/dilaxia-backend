@@ -15,7 +15,7 @@ import java.util.HashMap;
 public abstract class JsonEndpoint extends HttpServlet {
 
     protected static final JSONObject DEFAULT_SUCCESS_JSON = new JSONObject().put("message", "Success!");
-    protected static final JSONObject NOT_IMPLEMENTED_ERROR_JSON = new JSONObject().put("error", "Not implemented.!");
+    protected static final JSONObject NOT_IMPLEMENTED_ERROR_JSON = new JSONObject().put("error", "Not implemented.");
 
     public abstract void init();
     public abstract void destroy();
@@ -76,7 +76,7 @@ public abstract class JsonEndpoint extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");System.out.println("grfiehousduahsòizeprfdhvuaisez");
+        response.setContentType("application/json");
 
         String rawBody = IOUtils.toString(request.getReader());
         JSONObject bodyObject = new JSONObject(rawBody);
@@ -87,9 +87,10 @@ public abstract class JsonEndpoint extends HttpServlet {
         try {
             result = post(request, response, bodyObject, headers, findQueryParams(request));
         } catch (EndpointException e) {
-            result = new JSONObject().put("errassaor", e.getMessage());
+            response.setStatus(e.statusCode);
+            result = new JSONObject().put("error", e.getMessage());
         }
-        System.out.println("arriva qui");
+
         response.getWriter().print(result.toString());
         response.getWriter().flush();
     }
@@ -107,6 +108,7 @@ public abstract class JsonEndpoint extends HttpServlet {
         try {
             result = put(request, response, bodyObject, headers, findQueryParams(request));
         } catch (EndpointException e) {
+            response.setStatus(e.statusCode);
             result = new JSONObject().put("error", e.getMessage());
         }
 
@@ -127,6 +129,7 @@ public abstract class JsonEndpoint extends HttpServlet {
         try {
             result = delete(request, response, bodyObject, headers, findQueryParams(request));
         } catch (EndpointException e) {
+            response.setStatus(e.statusCode);
             result = new JSONObject().put("error", e.getMessage());
         }
 

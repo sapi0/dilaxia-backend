@@ -39,7 +39,7 @@ public class LoginEndpoint extends BasicJsonEndpoint {
     // ECCEZZIONE: in questo caso la session dobbiamo crearla siccome vuole fare il login, quindi override del basic senza usare il tipo di Endpoint per sessioni
     @Override
     protected JSONObject post(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws EndpointException {
-        if(request.getSession() != null) {
+        if(request.getSession(false) != null) {
             throw new AccessException(499, "Already logged in.");
         }
 
@@ -47,6 +47,10 @@ public class LoginEndpoint extends BasicJsonEndpoint {
             LoginDTO loginData = Mapper.asObject(bodyObject, LoginDTO.class);
 
             User user = dao.get(loginData.email);
+
+            if(user == null) {
+                throw new AccessException(499, "Wrong credentials");
+            }
 
             BCrypt.Result result = BCrypt.verifyer().verify(loginData.password.toCharArray(), user.hash);
 
@@ -66,6 +70,7 @@ public class LoginEndpoint extends BasicJsonEndpoint {
         } catch (SQLException e) {
             // TODO throw
         }
+
         throw new EndpointException(499, "Unknown error");
     }
 
