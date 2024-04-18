@@ -12,10 +12,6 @@ public class User {
     public int type;
     public Timestamp created;
 
-    public User(int _id, String name, String surname, String email, String hash, int type) {
-
-    }
-
     public User(int id, String name, String surname, String email, String hash, int type, Timestamp created) {
         this.id = id;
         this.name = name;
