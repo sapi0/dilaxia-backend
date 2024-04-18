@@ -35,10 +35,10 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
         String surname = rs.getString(3);
         String email = rs.getString(4);
         String hash = rs.getString(5);
-        Date birth = rs.getDate(6);
-        int type = rs.getInt(7);
+        int type = rs.getInt(6);
+        Timestamp created = rs.getTimestamp(7);
 
-        return new User(_id, name, surname, email, hash, birth, type);
+        return new User(_id, name, surname, email, hash, type, created);
     }
 
     @Override
@@ -81,8 +81,8 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
         addUser.setString(2, user.getSurname());
         addUser.setString(3, user.getEmail());
         addUser.setString(4, user.getHash());
-        addUser.setDate(5, user.getBirth());
-        addUser.setInt(6, user.getType());
+        addUser.setInt(5, user.getType());
+        addUser.setTimestamp(6, user.getCreated());
 
         addUser.execute();
     }
