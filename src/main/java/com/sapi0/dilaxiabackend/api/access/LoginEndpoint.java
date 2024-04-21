@@ -63,7 +63,8 @@ public class LoginEndpoint extends BasicJsonEndpoint {
             session.setAttribute("type", user.type);
             session.setAttribute("logged", true);
 
-            return new JSONObject().put("id", user.id).put("sessionCookie", session.getId());
+            // return new JSONObject().put("id", user.id).put("sessionCookie", session.getId()); // probabilmente non e' una buona idea dare queste info cosi' a caso
+            return DEFAULT_SUCCESS_JSON;
         } catch (JsonProcessingException e) {
             throw new BodyParseException(499, "Invalid body object");
         } catch (SQLException e) {

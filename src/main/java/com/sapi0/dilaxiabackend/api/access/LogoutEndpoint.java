@@ -24,9 +24,7 @@ public class LogoutEndpoint extends BasicJsonEndpoint {
 
     @Override
     protected JSONObject post(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, HttpSession session) throws EndpointException {
-        if(session == null) {
-            throw new AccessException(499, "Not logged in");
-        }
+        requireLoggedIn(session);
 
         try {
             session.invalidate();

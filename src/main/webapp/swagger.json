@@ -198,7 +198,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthSuccess"
+                  "$ref": "#/components/schemas/DefaultSuccess"
                 }
               }
             }
@@ -1402,21 +1402,6 @@
             "type": "string",
             "format": "password",
             "example": "Aldini2017!!",
-            "required": true
-          }
-        }
-      },
-      "AuthSuccess": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "example": 37,
-            "required": true
-          },
-          "sessionCookie": {
-            "type": "string",
-            "example": "U2Ugc3RhaSBsZWdnZW5kbyBxdWVzdG8gc2VpIHVuIG1hdHRvIGluZm9nbmF0byBhaGFoYSA6KQ==",
             "required": true
           }
         }
