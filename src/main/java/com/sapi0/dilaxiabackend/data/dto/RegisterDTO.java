@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RegisterDTO {
 
-    @JsonProperty("name")
+    @JsonProperty(value = "name")
     public String name;
 
     @JsonProperty("surname")

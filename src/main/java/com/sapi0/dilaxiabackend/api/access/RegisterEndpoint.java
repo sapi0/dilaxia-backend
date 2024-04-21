@@ -33,7 +33,7 @@ public class RegisterEndpoint extends BasicJsonEndpoint {
 
     private static final Pattern REGEX_LETTERS_SPACES = Pattern.compile("^[ A-Za-z]+$");
     private static final Pattern REGEX_EMAIL = Pattern.compile("\\w+([-+.']\\w+)@\\w+([-.]\\w+).\\w+([-.]\\w+)*");
-    private static final Pattern REGEX_PASSWORD = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+    private static final Pattern REGEX_PASSWORD = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!?\\-,./*_+=])(?=\\S+$).{8,}$");
 
     private UserDaoImpl dao;
 
@@ -58,9 +58,7 @@ public class RegisterEndpoint extends BasicJsonEndpoint {
 
     @Override
     protected JSONObject post(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, HttpSession session) throws EndpointException {
-        if(session != null) {
-            throw new AccessException(499, "Already logged in.");
-        }
+        requireLoggedOut(session);
 
         try {
             RegisterDTO registerData = Mapper.asObject(bodyObject, RegisterDTO.class);
@@ -89,6 +87,7 @@ public class RegisterEndpoint extends BasicJsonEndpoint {
         } catch(JsonProcessingException e) {
             throw new BodyParseException(499, "Invalid body object");
         } catch (SQLException e) {
+            e.printStackTrace();
             // TODO throw
         }
 
