@@ -3,6 +3,7 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 CREATE DATABASE dilaxia;
+USE dilaxia;
 
 CREATE TABLE `event` (
   `id` int(11) NOT NULL,
