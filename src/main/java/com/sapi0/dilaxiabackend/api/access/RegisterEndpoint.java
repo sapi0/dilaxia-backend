@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 @WebServlet("/register")
 public class RegisterEndpoint extends BasicJsonEndpoint {
 
-    private static final int BCRYPT_COST = 15;
+    private static final int BCRYPT_COST = 13;
 
     private static final String STUDENT_EMAIL_SUFFIX = "@aldini.istruzioneer.it";
     private static final String PROFESSOR_EMAIL_SUFFIX = "@avbo.it";
