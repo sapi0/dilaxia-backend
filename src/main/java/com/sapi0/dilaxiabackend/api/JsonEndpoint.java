@@ -68,9 +68,12 @@ public abstract class JsonEndpoint extends HttpServlet {
         } catch (EndpointException e) {
             response.setStatus(e.statusCode);
             result = new JSONObject().put("error", e.getMessage());
+        } catch(Exception e) {
+            response.sendError(500, e.getMessage());
+            return;
         }
 
-        response.getWriter().print(result.toString());
+        response.getWriter().print(result);
         response.getWriter().flush();
     }
 
@@ -89,9 +92,12 @@ public abstract class JsonEndpoint extends HttpServlet {
         } catch (EndpointException e) {
             response.setStatus(e.statusCode);
             result = new JSONObject().put("error", e.getMessage());
+        } catch(Exception e) {
+            response.sendError(500, e.getMessage());
+            return;
         }
 
-        response.getWriter().print(result.toString());
+        response.getWriter().print(result);
         response.getWriter().flush();
     }
 
@@ -110,9 +116,12 @@ public abstract class JsonEndpoint extends HttpServlet {
         } catch (EndpointException e) {
             response.setStatus(e.statusCode);
             result = new JSONObject().put("error", e.getMessage());
+        } catch(Exception e) {
+            response.sendError(500, e.getMessage());
+            return;
         }
 
-        response.getWriter().print(result.toString());
+        response.getWriter().print(result);
         response.getWriter().flush();
     }
 
@@ -131,9 +140,12 @@ public abstract class JsonEndpoint extends HttpServlet {
         } catch (EndpointException e) {
             response.setStatus(e.statusCode);
             result = new JSONObject().put("error", e.getMessage());
+        } catch(Exception e) {
+            response.sendError(500, e.getMessage());
+            return;
         }
 
-        response.getWriter().print(result.toString());
+        response.getWriter().print(result);
         response.getWriter().flush();
     }
 
