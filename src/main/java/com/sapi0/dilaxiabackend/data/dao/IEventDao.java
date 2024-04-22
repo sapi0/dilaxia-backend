@@ -13,7 +13,7 @@ public interface IEventDao {
     List<Event> dailyAll(Date data) throws SQLException;
     List<Event> all() throws SQLException;
     Event get(int id) throws SQLException;
-    void get(String title) throws SQLException;
+    Event get(String title) throws SQLException;
     void add(Event event) throws SQLException;
     void update(int id, Event event);
     void delete(int id);

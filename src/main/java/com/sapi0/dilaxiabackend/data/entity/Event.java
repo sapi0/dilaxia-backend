@@ -13,12 +13,13 @@ public class Event {
     private Timestamp subscription_limit;
     private int capacity;
     private String place;
+    private int type;
     private int creator;
     private int _public;
 
 
 
-    public Event(int id, String title, String description, Timestamp created, Timestamp edited, Timestamp start, Timestamp end, Timestamp subscription_limit, int capacity, String place, int creator, int _public ){
+    public Event(int id, String title, String description, Timestamp created, Timestamp edited, Timestamp start, Timestamp end, Timestamp subscription_limit, int capacity, String place,int type, int creator, int _public ){
         this.id = id;
         this.title = title;
         this.description = description;
@@ -29,6 +30,7 @@ public class Event {
         this.subscription_limit = subscription_limit;
         this.capacity = capacity;
         this.place = place;
+        this.type = type;
         this.creator = creator;
         this._public = _public;
 
@@ -64,6 +66,9 @@ public class Event {
 
     public String getPlace() {return place;}
     public void setPlace(String place) {this.place = place;}
+
+    public int getType() {return type;}
+    public void setType(int type) {this.type = type;}
 
     public int getCreator() {return creator;}
     public void setCreator(int creator) {this.creator = creator;}

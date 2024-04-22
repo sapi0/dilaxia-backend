@@ -2,6 +2,7 @@ package com.sapi0.dilaxiabackend.data.impl;
 
 import com.sapi0.dilaxiabackend.data.dao.IEventDao;
 import com.sapi0.dilaxiabackend.data.entity.Event;
+import com.sapi0.dilaxiabackend.data.entity.User;
 
 import javax.naming.NamingException;
 import java.sql.*;
@@ -12,7 +13,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
     private static final String TABLE_NAME = "event";
 
-    private PreparedStatement getAllEvent, getDailyEvents, getEventById, addEvent, updateEventById, deleteEventById, getSubcribeById;
+    private PreparedStatement getAllEvent, getDailyEvents, getEventByTitle, addEvent, updateEventById, deleteEventById, getSubcribeById;
 
     public EventDaoImpl() throws NamingException, SQLException {
         super();    // necessario
@@ -24,7 +25,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     public void initStatements() throws SQLException {
         getAllEvent = conn.prepareStatement("SELECT * FROM " + TABLE_NAME);
         getDailyEvents = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE date = ?");
-        getEventById = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
+        getEventByTitle = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
         addEvent = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "VALUE(null, ?,?,?,?,?,?,?,?,?,?,?,?) ");
         updateEventById = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET date = ? WHERE id = ?");
         deleteEventById = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
@@ -49,7 +50,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         return new Event(_id,title, description, created, edited, start, end, subscrption_limit, capacity, place, type, creator_id, _public );
     }
 
-    public List<Event> getSubscribedUsers(int id) throws SQLException{
+    public List<User> getSubscribedUsers(int id) throws SQLException{
      return null;
     }
     public List<Event> dailyAll(Date data) throws SQLException{
@@ -71,16 +72,16 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         return events;
     }
     public Event get(int id) throws SQLException{
-        getEventById.setInt(1, id);
-        ResultSet rs = getEventById.executeQuery();
+        getEventByTitle.setInt(1, id);
+        ResultSet rs = getEventByTitle.executeQuery();
 
         if(rs.next())
             return CreateEventFromResultSet(rs);
         return null;
     }
     public Event get(String title) throws SQLException{
-        getEventById.setString(1, title);
-        ResultSet rs = getEventById.executeQuery();
+        getEventByTitle.setString(1, title);
+        ResultSet rs = getEventByTitle.executeQuery();
 
         if(rs.next()){
             return CreateEventFromResultSet(rs);
@@ -119,7 +120,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     protected void close() throws SQLException {
         getAllEvent.close();
         getDailyEvents.close();
-        getEventById.close();
+        getEventByTitle.close();
         addEvent.close();
         updateEventById.close();
         deleteEventById.close();
