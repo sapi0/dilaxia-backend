@@ -39,9 +39,7 @@ public class LoginEndpoint extends BasicJsonEndpoint {
     // ECCEZZIONE: in questo caso la session dobbiamo crearla siccome vuole fare il login, quindi override del basic senza usare il tipo di Endpoint per sessioni
     @Override
     protected JSONObject post(HttpServletRequest request, HttpServletResponse response, JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams) throws EndpointException {
-        if(request.getSession(false) != null) {
-            throw new AccessException(499, "Already logged in.");
-        }
+        requireLoggedOut(request.getSession(false));
 
         try {
             LoginDTO loginData = Mapper.asObject(bodyObject, LoginDTO.class);
@@ -63,6 +61,7 @@ public class LoginEndpoint extends BasicJsonEndpoint {
 
             session.setAttribute("id", user.id);
             session.setAttribute("type", user.type);
+            session.setAttribute("logged", true);
 
             return new JSONObject().put("id", user.id).put("sessionCookie", session.getId());
         } catch (JsonProcessingException e) {

@@ -24,7 +24,7 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
         getAllUsers = conn.prepareStatement("SELECT * FROM " + TABLE_NAME);
         getUserByID = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
         getUserByEmail = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE email = ?");
-        addUser = conn.prepareStatement("INSERT INTO " + TABLE_NAME + " VALUES (null, ?, ?, ?, ?, ?, ?)");
+        addUser = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(name, surname, email, hash, type) VALUES (?, ?, ?, ?, ?)");
         updateUserByID = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET id = ? WHERE id = ?");
         deleteUserByID = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
     }
@@ -82,7 +82,6 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
         addUser.setString(3, user.getEmail());
         addUser.setString(4, user.getHash());
         addUser.setInt(5, user.getType());
-        addUser.setTimestamp(6, user.getCreated());
 
         addUser.execute();
     }

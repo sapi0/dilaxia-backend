@@ -232,11 +232,11 @@
         },
         "responses": {
           "200": {
-            "description": "La registrazione è stata effettuata correttamente senza alcun problema. L'utente è stato registrato e loggato, quindi viene settato un cookie sessionID per riconoscere l'utente nelle prossime pagine. Una risposta 200 a questo enpoint sottointende il login, proprio come se fosse una POST /login.",
+            "description": "La registrazione è stata effettuata correttamente senza alcun problema. L'utente è stato registrato",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthSuccess"
+                  "$ref": "#/components/schemas/DefaultSuccess"
                 }
               }
             }
