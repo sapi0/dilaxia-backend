@@ -3,14 +3,11 @@ package com.sapi0.dilaxiabackend.api;
 import com.sapi0.dilaxiabackend.exception.AccessException;
 import com.sapi0.dilaxiabackend.exception.EndpointException;
 import com.sapi0.dilaxiabackend.exception.IllegalParamException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 public abstract class BasicJsonEndpoint extends JsonEndpoint {

@@ -5,17 +5,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sapi0.dilaxiabackend.api.BasicJsonEndpoint;
 import com.sapi0.dilaxiabackend.data.DaoFactory;
 import com.sapi0.dilaxiabackend.data.Mapper;
-import com.sapi0.dilaxiabackend.data.dto.LoginDTO;
 import com.sapi0.dilaxiabackend.data.dto.RegisterDTO;
 import com.sapi0.dilaxiabackend.data.entity.User;
 import com.sapi0.dilaxiabackend.data.impl.UserDaoImpl;
-import com.sapi0.dilaxiabackend.exception.AccessException;
 import com.sapi0.dilaxiabackend.exception.BodyParseException;
 import com.sapi0.dilaxiabackend.exception.EndpointException;
 import com.sapi0.dilaxiabackend.exception.IllegalParamException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 
