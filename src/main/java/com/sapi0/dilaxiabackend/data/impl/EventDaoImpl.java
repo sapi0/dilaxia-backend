@@ -61,10 +61,10 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         List<User> subs = new ArrayList<>();
 
 
-        while(rs.next()){
-            //User us = new User(rs.getInt(1));
-            //subs.add();
-        }
+       /* while(rs.next()){
+            User us = new User(rs.getInt(1));
+            subs.add(us);
+        }*/
         return subs;
     }
 
