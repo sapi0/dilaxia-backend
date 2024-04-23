@@ -28,7 +28,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         getAllEvent = conn.prepareStatement("SELECT * FROM " + TABLE_NAME);
         getDailyEvents = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE date = ?");
         getEventByTitle = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
-        addEvent = conn.prepareStatement("INSERT INTO " + TABLE_NAME + " VALUE(null, ?,?,?,?,?,?,?,?,?,?,?,?) ");
+        addEvent = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(title, description, start, end, subscription_limit, capacity, place, creator, type, public) VALUES(?,?,?,?,?,?,?,?,?,?) ");
         updateEventById = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET date = ? WHERE id = ?");
         deleteEventById = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
         getSubcribeById = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
@@ -36,7 +36,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
     }
 
-    private Event CreateEventFromResultSet(ResultSet rs) throws SQLException {
+    private Event createEventFromResultSet(ResultSet rs) throws SQLException {
         int _id = rs.getInt(1);
         String title = rs.getString(2);
         String description = rs.getString(3);
@@ -61,10 +61,10 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         List<User> subs = new ArrayList<>();
 
 
-        while(rs.next()){
-            //User us = new User(rs.getInt(1));
-            //subs.add();
-        }
+       /* while(rs.next()){
+            User us = new User(rs.getInt(1));
+            subs.add(us);
+        }*/
         return subs;
     }
 
@@ -73,7 +73,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         List<Event> event = new ArrayList<>();
 
         while(rs.next()){
-            event.add(CreateEventFromResultSet(rs));
+            event.add(createEventFromResultSet(rs));
         }
         return event;
     }
@@ -82,7 +82,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         List<Event> events = new ArrayList<>();
 
         while(rs.next()){
-            events.add(CreateEventFromResultSet(rs));
+            events.add(createEventFromResultSet(rs));
         }
         return events;
     }
@@ -91,7 +91,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         ResultSet rs = getEventByTitle.executeQuery();
 
         if(rs.next())
-            return CreateEventFromResultSet(rs);
+            return createEventFromResultSet(rs);
         return null;
     }
     public Event get(String title) throws SQLException{
@@ -99,23 +99,21 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         ResultSet rs = getEventByTitle.executeQuery();
 
         if(rs.next()){
-            return CreateEventFromResultSet(rs);
+            return createEventFromResultSet(rs);
         }
         return null;
     }
     public void add(Event event) throws SQLException{
         addEvent.setString(1, event.getTitle());
         addEvent.setString(2, event.getDescription());
-        addEvent.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-        addEvent.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
-        addEvent.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-        addEvent.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
-        addEvent.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
-        addEvent.setInt(8, event.getId());
-        addEvent.setString(9, event.getPlace());
-        addEvent.setInt(10, event.getId());
-        addEvent.setInt(11, event.getId());
-        addEvent.setInt(12, event.getId());
+        addEvent.setTimestamp(3, event.getStart());
+        addEvent.setTimestamp(4, event.getEnd());
+        addEvent.setTimestamp(5, event.getSubscriptionLimit());
+        addEvent.setInt(6, event.getCapacity());
+        addEvent.setString(7, event.getPlace());
+        addEvent.setInt(8, event.getType());
+        addEvent.setBoolean(9, event.get_public());
+
 
         addEvent.execute();
     }
