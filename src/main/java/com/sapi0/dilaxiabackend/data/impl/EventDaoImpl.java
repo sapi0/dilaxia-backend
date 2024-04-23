@@ -32,7 +32,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         updateEventById = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET date = ? WHERE id = ?");
         deleteEventById = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
         getSubcribeById = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
-        getAllSubscribe = conn.prepareStatement("SELECT * FROM "+ TABLE_SUBS + " INNER JOIN " + TABLE_NAME + "ON " + TABLE_SUBS + ".event = " + TABLE_NAME+".id INNER JOIN "+ TABLE_USER+ " ON "+TABLE_SUBS+".user = "+TABLE_USER+".id WHERE "+TABLE_SUBS+".event = ?;");
+        getAllSubscribe = conn.prepareStatement("SELECT * FROM "+ TABLE_SUBS + " INNER JOIN " + TABLE_NAME + " ON " + TABLE_SUBS + ".event = " + TABLE_NAME+".id INNER JOIN "+ TABLE_USER+ " ON "+TABLE_SUBS+".user = "+TABLE_USER+".id WHERE "+TABLE_SUBS+".event = ?;");
 
     }
 
@@ -49,7 +49,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         String place = rs.getString(10);
         int type = rs.getInt(11);
         int creator_id = rs.getInt(12);
-        int _public = rs.getInt(13);
+        boolean _public = rs.getBoolean(13);
 
         return new Event(_id,title, description, created, edited, start, end, subscrption_limit, capacity, place, type, creator_id, _public );
     }
