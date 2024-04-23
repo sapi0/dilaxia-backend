@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 @WebServlet("/users")
-public class UsersEndpoint  extends BasicJsonEndpoint {
+public class UsersEndpoint extends BasicJsonEndpoint {
 
     @Override
     public void init() {
