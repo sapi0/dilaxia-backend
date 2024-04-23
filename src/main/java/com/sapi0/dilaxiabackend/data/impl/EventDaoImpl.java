@@ -12,8 +12,10 @@ import java.util.List;
 public class EventDaoImpl extends DaoImpl implements IEventDao {
 
     private static final String TABLE_NAME = "event";
+    private static final String TABLE_USER = "user";
+    private static final String TABLE_SUBS = "Subscription";
 
-    private PreparedStatement getAllEvent, getDailyEvents, getEventByTitle, addEvent, updateEventById, deleteEventById, getSubcribeById;
+    private PreparedStatement getAllEvent, getDailyEvents, getEventByTitle, addEvent, updateEventById, deleteEventById, getSubcribeById, getAllSubscribe;
 
     public EventDaoImpl() throws NamingException, SQLException {
         super();    // necessario
@@ -26,10 +28,12 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         getAllEvent = conn.prepareStatement("SELECT * FROM " + TABLE_NAME);
         getDailyEvents = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE date = ?");
         getEventByTitle = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
-        addEvent = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "VALUE(null, ?,?,?,?,?,?,?,?,?,?,?,?) ");
+        addEvent = conn.prepareStatement("INSERT INTO " + TABLE_NAME + " VALUE(null, ?,?,?,?,?,?,?,?,?,?,?,?) ");
         updateEventById = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET date = ? WHERE id = ?");
         deleteEventById = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
         getSubcribeById = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
+        getAllSubscribe = conn.prepareStatement("SELECT * FROM "+ TABLE_SUBS + " INNER JOIN " + TABLE_NAME + "ON " + TABLE_SUBS + ".event = " + TABLE_NAME+".id INNER JOIN "+ TABLE_USER+ " ON "+TABLE_SUBS+".user = "+TABLE_USER+".id WHERE "+TABLE_SUBS+".event = ?;");
+
     }
 
     private Event CreateEventFromResultSet(ResultSet rs) throws SQLException {
@@ -50,9 +54,20 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         return new Event(_id,title, description, created, edited, start, end, subscrption_limit, capacity, place, type, creator_id, _public );
     }
 
+    // TODO
     public List<User> getSubscribedUsers(int id) throws SQLException{
-     return null;
+        getAllSubscribe.setInt(1,id);
+        ResultSet rs = getAllSubscribe.executeQuery();
+        List<User> subs = new ArrayList<>();
+
+
+        while(rs.next()){
+            //User us = new User(rs.getInt(1));
+            //subs.add();
+        }
+        return subs;
     }
+
     public List<Event> dailyAll(Date data) throws SQLException{
         ResultSet rs = getDailyEvents.executeQuery();
         List<Event> event = new ArrayList<>();
