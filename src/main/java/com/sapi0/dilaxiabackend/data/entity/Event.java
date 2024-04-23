@@ -14,11 +14,11 @@ public class Event {
     private int capacity;
     private String place;
     private int creator;
-    private int _public;
+    private boolean _public;
 
 
 
-    public Event(int id, String title, String description, Timestamp created, Timestamp edited, Timestamp start, Timestamp end, Timestamp subscription_limit, int capacity, String place, int creator, int _public ){
+    public Event(int id, String title, String description, Timestamp created, Timestamp edited, Timestamp start, Timestamp end, Timestamp subscription_limit, int capacity, String place, int creator, boolean _public ){
         this.id = id;
         this.title = title;
         this.description = description;
@@ -68,8 +68,8 @@ public class Event {
     public int getCreator() {return creator;}
     public void setCreator(int creator) {this.creator = creator;}
 
-    public int get_public() {return _public;}
-    public void set_public(int _public) {this._public = _public;}
+    public boolean get_public() {return _public;}
+    public void set_public(boolean _public) {this._public = _public;}
 
 
 
