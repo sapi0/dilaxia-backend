@@ -49,7 +49,7 @@ public class LoginEndpoint extends BasicJsonEndpoint {
                 throw new AccessException(499, "Wrong credentials");
             }
 
-            BCrypt.Result result = BCrypt.verifyer().verify(loginData.password.toCharArray(), user.hash);
+            BCrypt.Result result = BCrypt.verifyer().verify(loginData.password.toCharArray(), user.getHash());
 
             if(!result.verified) {
                 throw new AccessException(499, "Wrong credentials");
@@ -58,8 +58,8 @@ public class LoginEndpoint extends BasicJsonEndpoint {
             // se arriva qui vuol dire che si puo' loggare
             HttpSession session = request.getSession(true);
 
-            session.setAttribute("id", user.id);
-            session.setAttribute("type", user.type);
+            session.setAttribute("id", user.getId());
+            session.setAttribute("type", user.getType());
             session.setAttribute("logged", true);
 
             // return new JSONObject().put("id", user.id).put("sessionCookie", session.getId()); // probabilmente non e' una buona idea dare queste info cosi' a caso

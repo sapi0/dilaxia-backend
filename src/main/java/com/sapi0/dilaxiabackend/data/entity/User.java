@@ -4,13 +4,13 @@ import java.sql.Timestamp;
 
 public class User {
 
-    public int id;
-    public String name;
-    public String surname;
-    public String email;
-    public String hash;
-    public int type;
-    public Timestamp created;
+    private int id;
+    private String name;
+    private String surname;
+    private String email;
+    private String hash;
+    private int type;
+    private Timestamp created;
 
     public User(int id, String name, String surname, String email, String hash, int type, Timestamp created) {
         this.id = id;

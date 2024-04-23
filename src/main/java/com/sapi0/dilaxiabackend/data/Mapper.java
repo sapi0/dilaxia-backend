@@ -8,8 +8,8 @@ public class Mapper {
 
     private final static ObjectMapper mapper = new ObjectMapper();
 
-    public static String asJSON(Object obj) throws JsonProcessingException {
-        return mapper.writeValueAsString(obj);
+    public static JSONObject asJSON(Object obj) throws JsonProcessingException {
+        return new JSONObject(mapper.writeValueAsString(obj));
     }
 
     public static <T> T asObject(String json, Class<T> tClass) throws JsonProcessingException {

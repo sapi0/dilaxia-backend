@@ -12,14 +12,11 @@ public class EventUserDTO {
     public String name;
     @JsonProperty("surname")
     public String surname;
-    @JsonProperty("email")
-    public String email;
 
 
-    public EventUserDTO(String name, String surname, String email) {
+    public EventUserDTO(String name, String surname) {
         this.name = name;
         this.surname = surname;
-        this.email = email;
     }
 
 
@@ -28,9 +25,8 @@ public class EventUserDTO {
     }
 
     public EventUserDTO(User user){
-        this.name = user.name;
-        this.surname = user.surname;
-        this.email = user.email;
+        this.name = user.getName();
+        this.surname = user.getSurname();
     }
 
 }
