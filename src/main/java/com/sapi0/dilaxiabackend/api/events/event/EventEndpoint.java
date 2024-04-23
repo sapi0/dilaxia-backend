@@ -40,10 +40,9 @@ public class EventEndpoint extends BasicJsonEndpoint {
         try {
             EventCreateDTO eventData = Mapper.asObject(bodyObject, EventCreateDTO.class);
 
-            System.out.println((int)session.getAttribute("id"));
-
             service.createNewEvent(eventData, (int)session.getAttribute("id"), (int)session.getAttribute("type"));
 
+            return DEFAULT_SUCCESS_JSON;
         } catch(JsonProcessingException e) {
             throw new BodyParseException(499, "Invalid body object");
         } catch (SQLException e) {
@@ -51,9 +50,6 @@ public class EventEndpoint extends BasicJsonEndpoint {
             // TODO throw
             throw new EndpointException(499, "Can't add the event");
         }
-
-        // TODO
-        throw new EndpointException(599, "non so ora TODO");
     }
 
 }

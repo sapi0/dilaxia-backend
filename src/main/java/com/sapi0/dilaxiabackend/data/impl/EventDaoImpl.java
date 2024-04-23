@@ -111,8 +111,9 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         addEvent.setTimestamp(5, event.getSubscriptionLimit());
         addEvent.setInt(6, event.getCapacity());
         addEvent.setString(7, event.getPlace());
-        addEvent.setInt(8, event.getType());
-        addEvent.setBoolean(9, event.get_public());
+        addEvent.setInt(8, event.getCreator());
+        addEvent.setInt(9, event.getType());
+        addEvent.setBoolean(10, event.get_public());
 
 
         addEvent.execute();
