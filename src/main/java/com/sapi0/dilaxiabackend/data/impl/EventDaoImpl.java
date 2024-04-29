@@ -15,7 +15,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     private static final String TABLE_USER = "user";
     private static final String TABLE_SUBS = "Subscription";
 
-    private PreparedStatement getAllEvent, getDailyEvents, getEventByTitle, addEvent, updateEventById, deleteEventById, getSubcribeById, getAllSubscribe;
+    private PreparedStatement count, getAllEvent, getDailyEvents, getEventByTitle, addEvent, updateEventById, deleteEventById, getSubcribeById, getAllSubscribe, research, fullTextResearch;
 
     public EventDaoImpl() throws NamingException, SQLException {
         super();    // necessario
@@ -25,6 +25,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
 
     public void initStatements() throws SQLException {
+        count = conn.prepareStatement("SELECT COUNT(id) FROM " + TABLE_NAME);
         getAllEvent = conn.prepareStatement("SELECT * FROM " + TABLE_NAME);
         getDailyEvents = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE date = ?");
         getEventByTitle = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
@@ -34,6 +35,9 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         getSubcribeById = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
         getAllSubscribe = conn.prepareStatement("SELECT * FROM "+ TABLE_SUBS + " INNER JOIN " + TABLE_NAME + " ON " + TABLE_SUBS + ".event = " + TABLE_NAME+".id INNER JOIN "+ TABLE_USER+ " ON "+TABLE_SUBS+".user = "+TABLE_USER+".id WHERE "+TABLE_SUBS+".event = ?;");
 
+        research = conn.prepareStatement("SELECT id, title, description, created, edited, start, end, subscription_limit, capacity, place, type, creator, _public FROM " + TABLE_NAME + " LIMIT ? OFFSET ?");
+        // TODO @viola
+        fullTextResearch = conn.prepareStatement("SELECT id, title, description, created, edited, start, end, subscription_limit, capacity, place, type, creator, _public FROM " + TABLE_NAME + " LIMIT ? OFFSET ?");
     }
 
     private Event createEventFromResultSet(ResultSet rs) throws SQLException {
@@ -52,6 +56,29 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         boolean _public = rs.getBoolean(13);
 
         return new Event(_id,title, description, created, edited, start, end, subscrption_limit, capacity, place, type, creator_id, _public );
+    }
+
+    @Override
+    public int count() throws SQLException {
+        ResultSet rs = count.executeQuery();
+
+        if(rs.next()) {
+            return rs.getInt(1);
+        }
+
+        return -1;
+    }
+
+    @Override
+    public List<User> research(int page, int pageSize) throws SQLException {
+        // TODO @viola
+        return null;
+    }
+
+    @Override
+    public List<User> research(String query, int page, int pageSize) throws SQLException {
+        // TODO @viola
+        return null;
     }
 
     // TODO

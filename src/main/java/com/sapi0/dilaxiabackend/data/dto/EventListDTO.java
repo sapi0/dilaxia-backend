@@ -10,7 +10,7 @@ public class EventListDTO {
 
     @JsonProperty("totalSize")
     public int totalSize;
-    @JsonProperty("pageCount")
+    @JsonProperty("pageSize")
     public int pageCount;
     @JsonProperty("page")
     public int page;

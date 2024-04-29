@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface IEventDao {
-
+    int count() throws SQLException;
+    List<User> research(int page, int pageSize) throws SQLException;
+    List<User> research(String query, int page, int pageSize) throws SQLException;
     List<User> getSubscribedUsers(int id) throws SQLException;
     List<Event> dailyAll(Date data) throws SQLException;
     List<Event> all() throws SQLException;
