@@ -1,10 +1,7 @@
 package com.sapi0.dilaxiabackend.service;
 
 import com.sapi0.dilaxiabackend.data.DaoFactory;
-import com.sapi0.dilaxiabackend.data.dto.EventCreateDTO;
-import com.sapi0.dilaxiabackend.data.dto.EventDTO;
-import com.sapi0.dilaxiabackend.data.dto.EventListDTO;
-import com.sapi0.dilaxiabackend.data.dto.UserDTO;
+import com.sapi0.dilaxiabackend.data.dto.*;
 import com.sapi0.dilaxiabackend.data.entity.Event;
 import com.sapi0.dilaxiabackend.data.entity.User;
 import com.sapi0.dilaxiabackend.data.impl.EventDaoImpl;
@@ -57,4 +54,8 @@ public class EventService {
 
     }
 
+    public SubscriptionsDTO getSubscribedUsers(int pathParam) {
+        SubscriptionsDTO dto = new SubscriptionsDTO();  // TODO
+        return dto;
+    }
 }

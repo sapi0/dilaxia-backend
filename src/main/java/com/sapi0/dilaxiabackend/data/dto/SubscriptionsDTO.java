@@ -4,8 +4,8 @@ import java.util.List;
 
 public class SubscriptionsDTO {
 
-    public List<EventUserDTO> queue;
-    public List<EventUserDTO> subscriptions;
-
+    public EventLightDTO event;
+    public List<EventUserDTO> queued;
+    public List<EventUserDTO> subscribed;
 
 }
