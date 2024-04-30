@@ -12,12 +12,12 @@ public class UserMeDTO {
     @JsonProperty("surname")
     public String surname;
     @JsonProperty("type")
-    public int type;
+    public Integer type;
     @JsonProperty("email")
     public String email;
 
 
-    public UserMeDTO(String name, String surname, int type, String email) {
+    public UserMeDTO(String name, String surname, Integer type, String email) {
         this.name = name;
         this.surname = surname;
         this.type = type;

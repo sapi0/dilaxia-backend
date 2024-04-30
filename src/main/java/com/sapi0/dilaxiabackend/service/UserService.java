@@ -1,10 +1,12 @@
 package com.sapi0.dilaxiabackend.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sapi0.dilaxiabackend.data.DaoFactory;
 import com.sapi0.dilaxiabackend.data.dto.*;
 import com.sapi0.dilaxiabackend.data.entity.Event;
 import com.sapi0.dilaxiabackend.data.entity.User;
 import com.sapi0.dilaxiabackend.data.impl.UserDaoImpl;
+import com.sapi0.dilaxiabackend.data.Mapper;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -44,4 +46,17 @@ public class UserService {
 
         return dto;
     }
+
+    public UserMeDTO editUserMe(UserUpdateDTO in, int id) throws SQLException, JsonProcessingException {
+        User user = dao.get(id);
+
+        User updated = Mapper.update(user, in);
+
+        dao.update(id, updated);
+
+        UserMeDTO dto = new UserMeDTO(updated.getName(), updated.getSurname(), updated.getType(), updated.getEmail());
+
+        return dto;
+    }
+
 }

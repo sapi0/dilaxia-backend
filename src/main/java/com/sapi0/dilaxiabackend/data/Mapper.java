@@ -2,6 +2,8 @@ package com.sapi0.dilaxiabackend.data;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sapi0.dilaxiabackend.data.dto.UserUpdateDTO;
+import com.sapi0.dilaxiabackend.data.entity.User;
 import org.json.JSONObject;
 
 public class Mapper {
@@ -20,4 +22,7 @@ public class Mapper {
         return asObject(json.toString(), tClass);
     }
 
+    public static <T> T update(T dest, UserUpdateDTO in) throws JsonProcessingException {
+        return mapper.readerForUpdating(dest).readValue(mapper.writeValueAsString(in));
+    }
 }

@@ -3,6 +3,7 @@ package com.sapi0.dilaxiabackend.api.user.me;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sapi0.dilaxiabackend.api.BasicJsonEndpoint;
 import com.sapi0.dilaxiabackend.data.Mapper;
+import com.sapi0.dilaxiabackend.data.dto.UserUpdateDTO;
 import com.sapi0.dilaxiabackend.exception.EndpointException;
 import com.sapi0.dilaxiabackend.service.ServiceFactory;
 import com.sapi0.dilaxiabackend.service.UserService;
@@ -41,7 +42,13 @@ public class MeEndpoint  extends BasicJsonEndpoint {
 
     @Override
     protected JSONObject put(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, HttpSession session) throws EndpointException {
-        return super.put(bodyObject, headers, queryParams, session);
+        requireLoggedIn(session);
+
+        try {
+            return Mapper.asJSON(service.editUserMe(Mapper.asObject(bodyObject, UserUpdateDTO.class), (int)session.getAttribute("id")));
+        } catch (SQLException | JsonProcessingException e) {
+            throw new EndpointException(499, "boh");
+        }
     }
 
     @Override
