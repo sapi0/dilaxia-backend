@@ -53,7 +53,11 @@ public class MeEndpoint  extends BasicJsonEndpoint {
 
     @Override
     protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, HttpSession session) throws EndpointException {
-        return super.delete(bodyObject, headers, queryParams, session);
+        requireLoggedIn(session);
+
+        service.deleteUser((int)session.getAttribute("id"));
+
+        return DEFAULT_SUCCESS_JSON;
     }
 
 }

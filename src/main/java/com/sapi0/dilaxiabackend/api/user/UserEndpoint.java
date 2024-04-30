@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sapi0.dilaxiabackend.api.BasicJsonEndpoint;
 import com.sapi0.dilaxiabackend.api.PathIntegerJsonEndpoint;
 import com.sapi0.dilaxiabackend.data.Mapper;
+import com.sapi0.dilaxiabackend.data.dto.UserUpdateDTO;
 import com.sapi0.dilaxiabackend.exception.EndpointException;
 import com.sapi0.dilaxiabackend.service.ServiceFactory;
 import com.sapi0.dilaxiabackend.service.UserService;
@@ -38,16 +39,6 @@ public class UserEndpoint extends PathIntegerJsonEndpoint {
         } catch (SQLException | JsonProcessingException e) {
             throw new EndpointException(499, "");
         }
-    }
-
-    @Override
-    protected JSONObject put(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam, HttpSession session) throws EndpointException {
-        return super.put(bodyObject, headers, queryParams, session);
-    }
-
-    @Override
-    protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam, HttpSession session) throws EndpointException {
-        return super.delete(bodyObject, headers, queryParams, session);
     }
 
 }

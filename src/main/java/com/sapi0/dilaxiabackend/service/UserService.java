@@ -59,4 +59,9 @@ public class UserService {
         return dto;
     }
 
+    public void deleteUser(int id) {
+
+        dao.delete(id);
+
+    }
 }
