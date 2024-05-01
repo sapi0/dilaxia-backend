@@ -15,7 +15,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     private static final String TABLE_USER = "user";
     private static final String TABLE_SUBS = "Subscription";
 
-    private PreparedStatement getAllEvent, getDailyEvents, getEventByTitle, addEvent, updateEventById, deleteEventById, getSubcribeById, getAllSubscribe;
+    private PreparedStatement getAllEvent, getDailyEvents, fullTextResearch, addEvent, updateEventById, deleteEventById, getSubcribeById, getAllSubscribe;
 
     public EventDaoImpl() throws NamingException, SQLException {
         super();    // necessario
@@ -25,9 +25,9 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
 
     public void initStatements() throws SQLException {
-        getAllEvent = conn.prepareStatement("SELECT * FROM " + TABLE_NAME);
+        getAllEvent = conn.prepareStatement("SELECT * FROM " + TABLE_NAME +" INNER JOIN " + TABLE_USER + " ON " +TABLE_NAME + ".creator_Id = " +TABLE_USER + ".id");
         getDailyEvents = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE date = ?");
-        getEventByTitle = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
+        fullTextResearch = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE MATCH (title, description, place) AGAINST (?) LIMIT ? OFFSET ?");
         addEvent = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(title, description, start, end, subscription_limit, capacity, place, creator, type, public) VALUES(?,?,?,?,?,?,?,?,?,?) ");
         updateEventById = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET date = ? WHERE id = ?");
         deleteEventById = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
@@ -54,17 +54,16 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         return new Event(_id,title, description, created, edited, start, end, subscrption_limit, capacity, place, type, creator_id, _public );
     }
 
-    // TODO
     public List<User> getSubscribedUsers(int id) throws SQLException{
         getAllSubscribe.setInt(1,id);
         ResultSet rs = getAllSubscribe.executeQuery();
         List<User> subs = new ArrayList<>();
 
 
-       /* while(rs.next()){
-            User us = new User(rs.getInt(1));
+       while(rs.next()){
+            User us = new User(rs.getInt(1), rs.);
             subs.add(us);
-        }*/
+        }
         return subs;
     }
 
@@ -82,21 +81,44 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         List<Event> events = new ArrayList<>();
 
         while(rs.next()){
+            int _id = rs.getInt(1);
+            String title = rs.getString(2);
+            String description = rs.getString(3);
+            Timestamp created = rs.getTimestamp(4);
+            Timestamp edited = rs.getTimestamp(5);
+            Timestamp start = rs.getTimestamp(6);
+            Timestamp end = rs.getTimestamp(7);
+            Timestamp subscrption_limit = rs.getTimestamp(8);
+            int capacity = rs.getInt(9);
+            String place = rs.getString(10);
+            int type = rs.getInt(11);
+            boolean _public = rs.getBoolean(12);
+            int _idUser = rs.getInt(13);
+            String nameUser = rs.getString(14);
+            String surnameUser = rs.getString(15);
+            String emailUser = rs.getString(16);
+            String hashUser = rs.getString(17);
+            int typeUser = rs.getInt(18);
+            Timestamp createdUser = rs.getTimestamp(19);
+
+            User user = new User(_idUser, nameUser, surnameUser, emailUser, hashUser, typeUser, createdUser);
+            Event event = new Event(_id,title, description, created, edited, start, end, subscrption_limit, capacity, place, type, creator_id, _public );
+
             events.add(createEventFromResultSet(rs));
         }
         return events;
     }
     public Event get(int id) throws SQLException{
-        getEventByTitle.setInt(1, id);
-        ResultSet rs = getEventByTitle.executeQuery();
+        fullTextResearch.setInt(1, id);
+        ResultSet rs = fullTextResearch.executeQuery();
 
         if(rs.next())
             return createEventFromResultSet(rs);
         return null;
     }
     public Event get(String title) throws SQLException{
-        getEventByTitle.setString(1, title);
-        ResultSet rs = getEventByTitle.executeQuery();
+        fullTextResearch.setString(1, title);
+        ResultSet rs = fullTextResearch.executeQuery();
 
         if(rs.next()){
             return createEventFromResultSet(rs);
@@ -134,7 +156,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     protected void close() throws SQLException {
         getAllEvent.close();
         getDailyEvents.close();
-        getEventByTitle.close();
+        fullTextResearch.close();
         addEvent.close();
         updateEventById.close();
         deleteEventById.close();

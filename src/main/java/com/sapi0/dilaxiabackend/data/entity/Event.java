@@ -14,7 +14,7 @@ public class Event {
     private int capacity;
     private String place;
     private int type;
-    private int creator;
+    private User creator;
     private boolean _public;
 
 
