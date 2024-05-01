@@ -13,7 +13,7 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
 
     private static final String TABLE_NAME = "user";
 
-    private PreparedStatement getAllUsers, getUserByID, getUserByEmail, addUser, updateUserByID, deleteUserByID;
+    private PreparedStatement count, getAllUsers, getUserByID, getUserByEmail, addUser, updateUserByID, deleteUserByID, research;
 
     public UserDaoImpl() throws NamingException, SQLException {
         super();    // necessario
@@ -21,12 +21,15 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
     }
 
     private void initStatements() throws SQLException {
+        count = conn.prepareStatement("SELECT COUNT(id) FROM " + TABLE_NAME);
         getAllUsers = conn.prepareStatement("SELECT * FROM " + TABLE_NAME);
         getUserByID = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
         getUserByEmail = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE email = ?");
         addUser = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(name, surname, email, hash, type) VALUES (?, ?, ?, ?, ?)");
         updateUserByID = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET id = ? WHERE id = ?");
         deleteUserByID = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
+
+        research = conn.prepareStatement("SELECT id, name, surname, email, hash, type, created FROM " + TABLE_NAME + " LIMIT ? OFFSET ?");
     }
 
     private User createUserFromResultSet(ResultSet rs) throws SQLException {
@@ -39,6 +42,24 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
         Timestamp created = rs.getTimestamp(7);
 
         return new User(_id, name, surname, email, hash, type, created);
+    }
+
+    @Override
+    public int count() throws SQLException {
+        ResultSet rs = count.executeQuery();
+
+        if(rs.next()) {
+            return rs.getInt(1);
+        }
+
+        return -1;
+    }
+
+    @Override
+    public List<User> research(int page, int pageSize) throws SQLException {
+        research.setInt(1, pageSize);
+        research.setInt(2, (page-1)*pageSize);
+        return null;
     }
 
     @Override

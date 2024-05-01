@@ -1,20 +1,28 @@
 package com.sapi0.dilaxiabackend.api.events.event;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sapi0.dilaxiabackend.api.BasicJsonEndpoint;
 import com.sapi0.dilaxiabackend.api.PathIntegerJsonEndpoint;
+import com.sapi0.dilaxiabackend.data.Mapper;
+import com.sapi0.dilaxiabackend.data.dto.EventDTO;
 import com.sapi0.dilaxiabackend.exception.EndpointException;
+import com.sapi0.dilaxiabackend.service.EventService;
+import com.sapi0.dilaxiabackend.service.ServiceFactory;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 
 @WebServlet("/path/event/subscribe/*")
 public class EventSubscribeEndpoint extends PathIntegerJsonEndpoint {
 
+    private EventService service;
+
     @Override
     public void init() {
-
+        service = ServiceFactory.instance.getEventService();
     }
 
     @Override
@@ -24,12 +32,24 @@ public class EventSubscribeEndpoint extends PathIntegerJsonEndpoint {
 
     @Override
     protected JSONObject post(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam, HttpSession session) throws EndpointException {
-        return super.post(bodyObject, headers, queryParams, session);
+        requireLoggedIn(session);
+
+        try {
+            return Mapper.asJSON(service.subscribeUser(pathParam, (int)session.getAttribute("id")));
+        } catch (SQLException | JsonProcessingException e) {
+            throw new EndpointException(499, "boh");
+        }
     }
 
     @Override
     protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam, HttpSession session) throws EndpointException {
-        return super.delete(bodyObject, headers, queryParams, session);
+        requireLoggedIn(session);
+
+        try {
+            return Mapper.asJSON(service.unsubscribeUser(pathParam, (int)session.getAttribute("id")));
+        } catch (SQLException | JsonProcessingException e) {
+            throw new EndpointException(499, "boh");
+        }
     }
 
 }

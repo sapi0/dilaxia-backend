@@ -11,18 +11,15 @@ public class UserMeDTO {
     public String name;
     @JsonProperty("surname")
     public String surname;
-    @JsonProperty("birth")
-    public Date birth;
     @JsonProperty("type")
-    public int type;
+    public Integer type;
     @JsonProperty("email")
     public String email;
 
 
-    public UserMeDTO(String name, String surname, Date birth, int type, String email) {
+    public UserMeDTO(String name, String surname, Integer type, String email) {
         this.name = name;
         this.surname = surname;
-        this.birth = birth;
         this.type = type;
         this.email = email;
     }

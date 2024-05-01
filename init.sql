@@ -63,6 +63,9 @@ ALTER TABLE `user`
 ALTER TABLE `event`
   ADD CONSTRAINT `creator` FOREIGN KEY (`creator`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+ALTER TABLE `event`
+  ADD FULLTEXT( `title`, `description`, `place`);
+
 ALTER TABLE `subscription`
   ADD CONSTRAINT `event` FOREIGN KEY (`event`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `user` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
