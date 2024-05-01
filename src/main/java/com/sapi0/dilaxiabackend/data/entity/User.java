@@ -4,15 +4,15 @@ import java.sql.Timestamp;
 
 public class User {
 
-    private int id;
+    private Integer id;
     private String name;
     private String surname;
     private String email;
     private String hash;
-    private int type;
+    private Integer type;
     private Timestamp created;
 
-    public User(int id, String name, String surname, String email, String hash, int type, Timestamp created) {
+    public User(Integer id, String name, String surname, String email, String hash, Integer type, Timestamp created) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -22,11 +22,11 @@ public class User {
         this.created = created;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -62,11 +62,11 @@ public class User {
         this.hash = hash;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

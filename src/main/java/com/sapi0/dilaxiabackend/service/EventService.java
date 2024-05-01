@@ -16,8 +16,6 @@ import java.util.List;
 
 public class EventService {
 
-    private UserService userService;
-
     private EventDaoImpl dao;
 
     public EventService() {
