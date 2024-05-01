@@ -18,4 +18,16 @@ public class Params {
         return result;
     }
 
+    public static boolean queryToBool(HashMap<String, String> queryParams, String param, boolean defaultParam) throws IllegalParamException {
+        boolean result = defaultParam;
+        if(queryParams.get(param) != null) {
+            try {
+                result = Boolean.parseBoolean(queryParams.get(param));
+            } catch(Exception e) {
+                throw new IllegalParamException(499, param + " non e' un boolean");
+            }
+        }
+        return result;
+    }
+
 }

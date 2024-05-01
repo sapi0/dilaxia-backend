@@ -11,7 +11,7 @@ public class EventListDTO {
     @JsonProperty("totalSize")
     public int totalSize;
     @JsonProperty("pageSize")
-    public int pageCount;
+    public int pageSize;
     @JsonProperty("page")
     public int page;
     @JsonProperty("filters")
@@ -21,9 +21,9 @@ public class EventListDTO {
 
 
 
-    public EventListDTO(int totalSize, int pageCount, int page, FilterDTO filters, List<EventDTO> data) {
+    public EventListDTO(int totalSize, int pageSize, int page, FilterDTO filters, List<EventDTO> data) {
         this.totalSize = totalSize;
-        this.pageCount = pageCount;
+        this.pageSize = pageSize;
         this.page = page;
         this.filters = filters;
         this.data = data;

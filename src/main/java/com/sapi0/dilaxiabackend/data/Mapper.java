@@ -22,7 +22,7 @@ public class Mapper {
         return asObject(json.toString(), tClass);
     }
 
-    public static <T> T update(T dest, UserUpdateDTO in) throws JsonProcessingException {
+    public static <T> T update(T dest, Object in) throws JsonProcessingException {
         return mapper.readerForUpdating(dest).readValue(mapper.writeValueAsString(in));
     }
 }

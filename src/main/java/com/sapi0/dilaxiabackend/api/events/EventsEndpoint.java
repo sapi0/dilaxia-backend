@@ -7,6 +7,7 @@ import com.sapi0.dilaxiabackend.exception.BodyParseException;
 import com.sapi0.dilaxiabackend.exception.EndpointException;
 import com.sapi0.dilaxiabackend.service.EventService;
 import com.sapi0.dilaxiabackend.service.ServiceFactory;
+import com.sapi0.dilaxiabackend.utils.Params;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
@@ -33,15 +34,18 @@ public class EventsEndpoint extends BasicJsonEndpoint {
     protected JSONObject get(HashMap<String, String> headers, HashMap<String, String> queryParams, HttpSession session) throws EndpointException {
         requireLoggedIn(session);
 
+        int pageSize = Params.queryToInt(queryParams, "pageSize", 50);
+        int page = Params.queryToInt(queryParams, "page", 1);
+        boolean showPast = Params.queryToBool(queryParams, "showPast", false);
+
         try {
-            return Mapper.asJSON(service.getAllEvents());
+            return Mapper.asJSON(service.getEventList(showPast, pageSize, page));
         } catch(JsonProcessingException e) {
-            // TODO
-            throw new BodyParseException(599, "Can't convert the response to json. server error");
-        } catch(SQLException e) {
+            throw new BodyParseException(599, "Invalid response object");
+        } catch (SQLException e) {
             e.printStackTrace();
-            // TODO
-            throw new EndpointException(499, "Unknown event ID");
+            // TODO throw
+            throw new EndpointException(599, "internal error");
         }
     }
 

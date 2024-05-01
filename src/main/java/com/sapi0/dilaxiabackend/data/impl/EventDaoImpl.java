@@ -3,6 +3,7 @@ package com.sapi0.dilaxiabackend.data.impl;
 import com.sapi0.dilaxiabackend.data.dao.IEventDao;
 import com.sapi0.dilaxiabackend.data.entity.Event;
 import com.sapi0.dilaxiabackend.data.entity.User;
+import org.joda.time.DateTime;
 
 import javax.naming.NamingException;
 import java.sql.*;
@@ -70,13 +71,19 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     }
 
     @Override
-    public List<User> research(int page, int pageSize) throws SQLException {
+    public List<Event> research(int page, int pageSize) throws SQLException {
         // TODO @viola
         return null;
     }
 
     @Override
-    public List<User> research(String query, int page, int pageSize) throws SQLException {
+    public List<Event> research(String query, int page, int pageSize) throws SQLException {
+        // TODO @viola
+        return null;
+    }
+
+    @Override
+    public List<Event> research(DateTime date, int page, int pageSize) throws SQLException {
         // TODO @viola
         return null;
     }
@@ -151,10 +158,10 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     public void delete(int id){
 
     }
-    public void subscribe(int id){
+    public void subscribe(int eventID, int userID) {
 
     }
-    public void unsubscribe(int id){
+    public void unsubscribe(int eventID, int userID){
 
     }
     @Override
