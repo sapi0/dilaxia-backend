@@ -20,7 +20,7 @@ public class SubscriptionDaoImpl extends DaoImpl implements ISubscriptionDao {
     private static final String TABLE_USER = "user";
     private static final String TABLE_EVENT = "event";
 
-    private PreparedStatement count, listSubcribedByEventId;
+    private PreparedStatement count, listSubscribedByEventId, subscribeToEvent, unsubscribeFromEvent;
 
     public SubscriptionDaoImpl() throws NamingException, SQLException {
         super();
@@ -29,10 +29,20 @@ public class SubscriptionDaoImpl extends DaoImpl implements ISubscriptionDao {
     @Override
     protected void initStatements() throws SQLException {
         count = conn.prepareStatement("SELECT COUNT(id) FROM " + TABLE_NAME);
-        listSubcribedByEventId = conn.prepareStatement("SELECT " +
-                "tSubs.id, tSubs.timestamp tEvent.id eventID, tEvent.title, tEvent.capacity, tUser.id userID, tUser.name, tUser.surname" +
-                "FROM " + TABLE_NAME + " tSubs INNER JOIN " + TABLE_EVENT + " tEvent ON tSubs.event = tEvent.eventID INNER JOIN " + TABLE_USER + " tUser ON tSubs.user = tUser.userID" +
-                "WHERE tEvent.id = ?"
+        listSubscribedByEventId = conn.prepareStatement(
+                "SELECT " +
+                    "tSubs.id, tSubs.timestamp tEvent.id eventID, tEvent.title, tEvent.capacity, tUser.id userID, tUser.name, tUser.surname" +
+                    "FROM " + TABLE_NAME + " tSubs INNER JOIN " + TABLE_EVENT + " tEvent ON tSubs.event = tEvent.eventID INNER JOIN " + TABLE_USER + " tUser ON tSubs.user = tUser.userID" +
+                    "WHERE tEvent.id = ?"
+        );
+        subscribeToEvent = conn.prepareStatement(
+                "INSERT INTO " + TABLE_NAME + "(" +
+                        "event, user" +
+                    ") VALUES (?,?)"
+        );
+        unsubscribeFromEvent = conn.prepareStatement(
+                "DELETE FROM " + TABLE_NAME + " " +
+                    "WHERE id = ?"
         );
     }
 
@@ -70,9 +80,9 @@ public class SubscriptionDaoImpl extends DaoImpl implements ISubscriptionDao {
 
     @Override
     public List<Subscription> getSubscribedUsers(int eventID) throws SQLException {
-        listSubcribedByEventId.setInt(1, eventID);
+        listSubscribedByEventId.setInt(1, eventID);
 
-        ResultSet rs = listSubcribedByEventId.executeQuery();
+        ResultSet rs = listSubscribedByEventId.executeQuery();
         List<Subscription> subs = new ArrayList<>();
 
         while(rs.next()){
@@ -85,17 +95,25 @@ public class SubscriptionDaoImpl extends DaoImpl implements ISubscriptionDao {
 
     @Override
     public void insertSubscription(int eventID, int userID) throws SQLException {
-        // TODO
+        subscribeToEvent.setInt(1, eventID);
+        subscribeToEvent.setInt(2, userID);
+
+        subscribeToEvent.execute();
     }
 
     @Override
     public void deleteSubscription(int eventID) throws SQLException {
-        // TODO
+        unsubscribeFromEvent.setInt(1, eventID);
+
+        unsubscribeFromEvent.execute();
     }
 
     @Override
     protected void close() throws SQLException {
-        // TODO
+        count.close();
+        listSubscribedByEventId.close();
+        subscribeToEvent.close();
+        unsubscribeFromEvent.close();
     }
 
 }
