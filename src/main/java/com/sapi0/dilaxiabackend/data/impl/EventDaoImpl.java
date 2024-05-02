@@ -27,19 +27,19 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
     public void initStatements() throws SQLException {
         count = conn.prepareStatement("SELECT COUNT(id) FROM " + TABLE_NAME);
-        
+
         getEventByID = conn.prepareStatement(
                 "SELECT " +
                     "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.type, tEvent.public, " +
-                    "tUser.id userID, tUser.name, tUser.surname, tUser.type userType" +
-                    "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id" +
+                    "tUser.id userID, tUser.name, tUser.surname, tUser.type userType " +
+                    "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id " +
                     "WHERE tEvent.id = ?"
         );
 
         listSubcribedByEventId = conn.prepareStatement(
                 "SELECT " +
-                    "tSubs.id, tSubs.timestamp tEvent.id eventID, tEvent.title, tEvent.capacity, tUser.id userID, tUser.name, tUser.surname" +
-                    "FROM " + TABLE_SUBS + " tSubs INNER JOIN " + TABLE_NAME + " tEvent ON tSubs.event = tEvent.eventID INNER JOIN " + TABLE_USER + " tUser ON tSubs.user = tUser.userID" +
+                    "tSubs.id, tSubs.timestamp tEvent.id eventID, tEvent.title, tEvent.capacity, tUser.id userID, tUser.name, tUser.surname " +
+                    "FROM " + TABLE_SUBS + " tSubs INNER JOIN " + TABLE_NAME + " tEvent ON tSubs.event = tEvent.eventID INNER JOIN " + TABLE_USER + " tUser ON tSubs.user = tUser.userID " +
                     "WHERE tEvent.id = ?"
         );
 
@@ -85,7 +85,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
                     "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id " +
                     "WHERE " +
                         "(MATCH (tEvent.title, tEvent.description, tEvent.place) AGAINST (?)) " +
-                        "OR (tEvent.end >= current_timestamp() OR 1=?) " +
+                        "AND (tEvent.end >= current_timestamp() OR 1=?) " +
                     "LIMIT ? OFFSET ?"
         );
     }
