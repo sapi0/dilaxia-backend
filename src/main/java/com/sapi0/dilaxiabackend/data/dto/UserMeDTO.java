@@ -17,7 +17,6 @@ public class UserMeDTO {
     @JsonProperty("email")
     public String email;
 
-
     public UserMeDTO(int id, String name, String surname, Integer type, String email) {
         this.id = id;
         this.name = name;

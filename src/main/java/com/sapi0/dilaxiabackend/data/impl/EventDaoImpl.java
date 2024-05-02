@@ -229,6 +229,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         updateEventById.execute();
     }
 
+    @Override
     public void delete(int id) throws SQLException {
         deleteEventById.setInt(1, id);
 
@@ -247,4 +248,5 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         dailyResearch.close();
         fullTextResearch.close();
     }
+
 }

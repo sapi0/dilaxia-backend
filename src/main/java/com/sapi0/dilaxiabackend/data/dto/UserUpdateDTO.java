@@ -12,13 +12,10 @@ public class UserUpdateDTO {
     public String name;
     @JsonProperty("surname")
     public String surname;
-    @JsonProperty("type")
-    public Integer type;
 
-    public UserUpdateDTO(String name, String surname, Integer type) {
+    public UserUpdateDTO(String name, String surname) {
         this.name = name;
         this.surname = surname;
-        this.type = type;
     }
 
     public UserUpdateDTO() {
