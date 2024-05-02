@@ -1,12 +1,12 @@
 package com.sapi0.dilaxiabackend.data.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.sql.Timestamp;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EventUpdateDTO {
-
-
 
     @JsonProperty("title")
     public String title;
@@ -19,14 +19,14 @@ public class EventUpdateDTO {
     @JsonProperty("subscription_limit")
     public Timestamp subscription_limit;
     @JsonProperty("capacity")
-    public int capacity;
+    public Integer capacity;
     @JsonProperty("place")
     public String place;
     @JsonProperty("public")
-    public boolean _public;
+    public Boolean _public;
 
 
-    public EventUpdateDTO(String title, String description, Timestamp start, Timestamp end, Timestamp subscription_limit, int capacity, String place, boolean _public) {
+    public EventUpdateDTO(String title, String description, Timestamp start, Timestamp end, Timestamp subscription_limit, Integer capacity, String place, Boolean _public) {
         this.title = title;
         this.description = description;
         this.start = start;

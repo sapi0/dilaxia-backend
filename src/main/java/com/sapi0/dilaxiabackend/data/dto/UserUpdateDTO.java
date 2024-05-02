@@ -13,9 +13,9 @@ public class UserUpdateDTO {
     @JsonProperty("surname")
     public String surname;
     @JsonProperty("type")
-    public int type;
+    public Integer type;
 
-    public UserUpdateDTO(String name, String surname, int type) {
+    public UserUpdateDTO(String name, String surname, Integer type) {
         this.name = name;
         this.surname = surname;
         this.type = type;

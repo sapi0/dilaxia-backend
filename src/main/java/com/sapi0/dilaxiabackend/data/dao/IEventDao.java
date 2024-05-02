@@ -17,7 +17,7 @@ public interface IEventDao {
     List<Event> research(DateTime date, int page, int pageSize) throws SQLException;
     Event get(int id) throws SQLException;
     void add(Event event) throws SQLException;
-    void update(int id, Event event);
-    void delete(int id);
+    void update(int id, Event event) throws SQLException;
+    void delete(int id) throws SQLException;
 
 }

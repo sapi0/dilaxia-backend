@@ -19,7 +19,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     private static final String TABLE_USER = "user";
     private static final String TABLE_SUBS = "subscription";
 
-    private PreparedStatement count, getEventByID, getAllEvent, getDailyEvents, fullTextResearch, addEvent, updateEventById, deleteEventById, listSubcribedByEventId, getAllSubscribe, neutralResearch;
+    private PreparedStatement count, getEventByID, listSubcribedByEventId, addEvent, updateEventById, deleteEventById, neutralResearch, dailyResearch, fullTextResearch;
 
     public EventDaoImpl() throws NamingException, SQLException {
         super();    // necessario
@@ -48,10 +48,16 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
                     ") VALUES(?,?,?,?,?,?,?,?,?,?)"
         );
 
-        fullTextResearch = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE MATCH (title, description, place) AGAINST (?) LIMIT ? OFFSET ?");
-        updateEventById = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET date = ? WHERE id = ?");
-        deleteEventById = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
+        updateEventById = conn.prepareStatement(
+                "UPDATE " + TABLE_NAME + " " +
+                    "SET title = ?, description = ?, start = ?, end = ?, subscription_limit = ?, capacity = ?, place = ?, public = ? " +
+                    "WHERE id = ?"
+        );
 
+        deleteEventById = conn.prepareStatement(
+                "DELETE FROM " + TABLE_NAME + " " +
+                    "WHERE id = ?"
+        );
 
         neutralResearch = conn.prepareStatement(
                 "SELECT " +
@@ -62,6 +68,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         );
         // TODO @viola
         fullTextResearch = conn.prepareStatement("SELECT id, title, description, created, edited, start, end, subscription_limit, capacity, place, type, creator, _public FROM " + TABLE_NAME + " LIMIT ? OFFSET ?");
+        fullTextResearch = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE MATCH (title, description, place) AGAINST (?) LIMIT ? OFFSET ?");
     }
 
     public Event createFullEvent(ResultSet rset) throws SQLException {
@@ -148,6 +155,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         return null;
     }
 
+    @Override
     public void add(Event event) throws SQLException {
         addEvent.setString(1, event.getTitle());
         addEvent.setString(2, event.getDescription());
@@ -163,15 +171,38 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         addEvent.execute();
     }
 
-    public void update(int id, Event event){
+    @Override
+    public void update(int id, Event event) throws SQLException {
+        updateEventById.setString(1, event.getTitle());
+        updateEventById.setString(2, event.getDescription());
+        updateEventById.setTimestamp(3, event.getStart());
+        updateEventById.setTimestamp(4, event.getEnd());
+        updateEventById.setTimestamp(5, event.getSubscriptionLimit());
+        updateEventById.setInt(6, event.getCapacity());
+        updateEventById.setString(7, event.getPlace());
+        updateEventById.setBoolean(8, event.get_public());
 
+        updateEventById.setInt(9, event.getId());
+
+        updateEventById.execute();
     }
-    public void delete(int id){
 
+    public void delete(int id) throws SQLException {
+        deleteEventById.setInt(1, id);
+
+        deleteEventById.execute();
     }
 
     @Override
     protected void close() throws SQLException {
-        // TODO
+        count.close();
+        getEventByID.close();
+        listSubcribedByEventId.close();
+        addEvent.close();
+        updateEventById.close();
+        deleteEventById.close();
+        neutralResearch.close();
+        dailyResearch.close();
+        fullTextResearch.close();
     }
 }
