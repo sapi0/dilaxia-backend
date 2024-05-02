@@ -27,6 +27,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
     public void initStatements() throws SQLException {
         count = conn.prepareStatement("SELECT COUNT(id) FROM " + TABLE_NAME);
+        
         getEventByID = conn.prepareStatement(
                 "SELECT " +
                     "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.type, tEvent.public, " +
@@ -62,13 +63,31 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         neutralResearch = conn.prepareStatement(
                 "SELECT " +
                     "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.type, tEvent.creator, tEvent.public, " +
-                    "tUser.id userID, tUser.name, tUser.surname, tUser.type userType" +
-                    "FROM" + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id" +
+                    "tUser.id userID, tUser.name, tUser.surname, tUser.type userType " +
+                    "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id " +
+                    "WHERE tEvent.end >= current_timestamp() OR 1=? " +
+                    "ORDER BY tEvent.start ASC " +
                     "LIMIT ? OFFSET ?"
         );
-        // TODO @viola
-        fullTextResearch = conn.prepareStatement("SELECT id, title, description, created, edited, start, end, subscription_limit, capacity, place, type, creator, _public FROM " + TABLE_NAME + " LIMIT ? OFFSET ?");
-        fullTextResearch = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE MATCH (title, description, place) AGAINST (?) LIMIT ? OFFSET ?");
+        dailyResearch = conn.prepareStatement(
+                "SELECT " +
+                    "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.type, tEvent.creator, tEvent.public, " +
+                    "tUser.id userID, tUser.name, tUser.surname, tUser.type userType " +
+                    "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id " +
+                    "WHERE DATE(current_timestamp()) BETWEEN DATE(tEvent.start) AND DATE(tEvent.end) " +
+                    "ORDER BY tEvent.start ASC " +
+                    "LIMIT ? OFFSET ?"
+        );
+        fullTextResearch = conn.prepareStatement(
+                "SELECT " +
+                    "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.type, tEvent.creator, tEvent.public, " +
+                    "tUser.id userID, tUser.name, tUser.surname, tUser.type userType " +
+                    "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id " +
+                    "WHERE " +
+                        "(MATCH (tEvent.title, tEvent.description, tEvent.place) AGAINST (?)) " +
+                        "OR (tEvent.end >= current_timestamp() OR 1=?) " +
+                    "LIMIT ? OFFSET ?"
+        );
     }
 
     public Event createFullEvent(ResultSet rset) throws SQLException {
@@ -128,9 +147,10 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     }
 
     @Override
-    public List<Event> research(int page, int pageSize) throws SQLException {
-        neutralResearch.setInt(1, pageSize);
-        neutralResearch.setInt(2, (page-1)*pageSize);
+    public List<Event> research(boolean showPast, int page, int pageSize) throws SQLException {
+        neutralResearch.setInt(1, showPast ? 1 : 0);
+        neutralResearch.setInt(2, pageSize);
+        neutralResearch.setInt(3, (page-1)*pageSize);
 
         ResultSet rs = neutralResearch.executeQuery();
         List<Event> events = new ArrayList<>();
@@ -144,15 +164,37 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     }
 
     @Override
-    public List<Event> research(String query, int page, int pageSize) throws SQLException {
-        // TODO @viola
-        return null;
+    public List<Event> research(String query, boolean showPast, int page, int pageSize) throws SQLException {
+        fullTextResearch.setString(1, query);
+        fullTextResearch.setInt(2, showPast ? 1 : 0);
+        fullTextResearch.setInt(3, pageSize);
+        fullTextResearch.setInt(4, (page-1)*pageSize);
+
+        ResultSet rs = fullTextResearch.executeQuery();
+        List<Event> events = new ArrayList<>();
+
+        while(rs.next()){
+            events.add(createFullEvent(rs));
+        }
+
+        rs.close(); // TODO mettere il close a tutti
+        return events;
     }
 
     @Override
     public List<Event> research(DateTime date, int page, int pageSize) throws SQLException {
-        // TODO @viola
-        return null;
+        dailyResearch.setInt(1, pageSize);
+        dailyResearch.setInt(2, (page-1)*pageSize);
+
+        ResultSet rs = dailyResearch.executeQuery();
+        List<Event> events = new ArrayList<>();
+
+        while(rs.next()){
+            events.add(createFullEvent(rs));
+        }
+
+        rs.close(); // TODO mettere il close a tutti
+        return events;
     }
 
     @Override

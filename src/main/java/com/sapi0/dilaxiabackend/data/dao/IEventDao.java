@@ -12,8 +12,8 @@ import java.util.List;
 public interface IEventDao {
 
     int count() throws SQLException;
-    List<Event> research(int page, int pageSize) throws SQLException;
-    List<Event> research(String query, int page, int pageSize) throws SQLException;
+    List<Event> research(boolean showPast, int page, int pageSize) throws SQLException;
+    List<Event> research(String query, boolean showPast, int page, int pageSize) throws SQLException;
     List<Event> research(DateTime date, int page, int pageSize) throws SQLException;
     Event get(int id) throws SQLException;
     void add(Event event) throws SQLException;
