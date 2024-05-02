@@ -15,15 +15,18 @@ public class ServiceFactory {
 
     private UserService userService;
     private EventService eventService;
+    private SubscriptionService subscriptionService;
 
     private ServiceFactory() {
         userService = new UserService();
         eventService = new EventService();
+        subscriptionService = new SubscriptionService();
     }
 
     public UserService getUserService() {
         return userService;
     }
     public EventService getEventService() {return eventService;}
+    public SubscriptionService getSubscriptionService() {return subscriptionService;}
 
 }

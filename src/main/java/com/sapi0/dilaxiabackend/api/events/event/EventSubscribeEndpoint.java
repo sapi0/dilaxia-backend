@@ -8,6 +8,7 @@ import com.sapi0.dilaxiabackend.data.dto.EventDTO;
 import com.sapi0.dilaxiabackend.exception.EndpointException;
 import com.sapi0.dilaxiabackend.service.EventService;
 import com.sapi0.dilaxiabackend.service.ServiceFactory;
+import com.sapi0.dilaxiabackend.service.SubscriptionService;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
@@ -18,11 +19,11 @@ import java.util.HashMap;
 @WebServlet("/path/event/subscribe/*")
 public class EventSubscribeEndpoint extends PathIntegerJsonEndpoint {
 
-    private EventService service;
+    private SubscriptionService service;
 
     @Override
     public void init() {
-        service = ServiceFactory.instance.getEventService();
+        service = ServiceFactory.instance.getSubscriptionService();
     }
 
     @Override

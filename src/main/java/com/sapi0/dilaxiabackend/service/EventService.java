@@ -23,40 +23,19 @@ public class EventService {
     }
 
     public void createNewEvent(EventCreateDTO dto, int userID, int userType) throws SQLException {
-        int type = 0;
+        int eventType = 0;  // TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        Event event = new Event(-1, dto.title, dto.description, null, null, dto.start, dto.end, dto.subscription_limit, dto.capacity, dto.place, type, userID, dto._public);
+        Event event = new Event(-1, dto.title, dto.description, null, null, dto.start, dto.end, dto.subscription_limit, dto.capacity, dto.place, eventType, new User(userID, null, null, null, null, userType, null), dto._public);
 
         dao.add(event);
-
     }
 
     public EventDTO getEventByID(int eventID) throws SQLException {
         Event event = dao.get(eventID);
 
-        UserDTO creator = ServiceFactory.instance.getUserService().getUserByID(event.getCreator());
-
+        UserDTO creator = new UserDTO(event.getCreator().getId(), event.getCreator().getName(), event.getCreator().getSurname(), event.getCreator().getType());
         EventDTO dto = new EventDTO(event.getId(), event.getTitle(), event.getDescription(), event.getCreated(), event.getEdited(), event.getStart(), event.getEnd(), event.getSubscriptionLimit(), event.getCapacity(), event.getPlace(), event.getType(), creator, event.get_public());
-        return dto;
-    }
 
-    public EventListDTO getAllEvents() throws SQLException {
-
-        List<Event> list = dao.all();
-        EventListDTO dto = new EventListDTO();
-
-        for(Event e : list) {
-            UserDTO creator = ServiceFactory.instance.getUserService().getUserByID(e.getCreator());
-            dto.data.add(new EventDTO(e.getId(), e.getTitle(), e.getDescription(), e.getCreated(), e.getEdited(), e.getStart(), e.getEnd(), e.getSubscriptionLimit(), e.getCapacity(), e.getPlace(), e.getType(), creator, e.get_public()));
-        }
-
-        return dto;
-
-
-    }
-
-    public SubscriptionsDTO getSubscribedUsers(int id) {
-        SubscriptionsDTO dto = new SubscriptionsDTO();  // TODO
         return dto;
     }
 
@@ -68,39 +47,25 @@ public class EventService {
 
         dao.update(id, updated);
 
-        UserDTO creator = ServiceFactory.instance.getUserService().getUserByID(updated.getCreator());
+        UserDTO creator = new UserDTO(updated.getCreator().getId(), updated.getCreator().getName(), updated.getCreator().getSurname(), updated.getCreator().getType());
         EventDTO dto = new EventDTO(updated.getId(), updated.getTitle(), updated.getDescription(), updated.getCreated(), updated.getEdited(), updated.getStart(), updated.getEnd(), updated.getSubscriptionLimit(), updated.getCapacity(), updated.getPlace(), updated.getType(), creator, updated.get_public());
 
         return dto;
     }
 
-    public void deleteEvent(int id) {
+    public void deleteEvent(int id) throws SQLException {
         // TODO perform user permission check
         dao.delete(id);
     }
 
-    // TODO @cri fai un controllo per vedere se e' gia' iscritto
-    public EventDTO subscribeUser(int eventID, int userID) throws SQLException {
-        dao.subscribe(eventID, userID);
-
-        return getEventByID(eventID);
-    }
-
-    // TODO @cri fai un controllo per vedere se e' gia' iscritto
-    public EventDTO unsubscribeUser(int eventID, int userID) throws SQLException {
-        dao.unsubscribe(eventID, userID);
-
-        return getEventByID(eventID);
-    }
-
     public EventListDTO getEventList(boolean showPast, int pageSize, int page) throws SQLException {
-        EventListDTO dto = makeResearch(dao.research(pageSize, page), pageSize, page);
+        EventListDTO dto = makeResearch(dao.research(showPast, pageSize, page), pageSize, page);
         dto.filters.showPast = showPast;
         return dto;
     }
 
     public EventListDTO research(String query, boolean showPast, int pageSize, int page) throws SQLException {
-        EventListDTO dto = makeResearch(dao.research(query, pageSize, page), pageSize, page);
+        EventListDTO dto = makeResearch(dao.research(query, showPast, pageSize, page), pageSize, page);
         dto.filters.query = query;
         dto.filters.showPast = showPast;
         return dto;
@@ -121,8 +86,7 @@ public class EventService {
         dto.filters = new FilterDTO();
 
         for(Event e : result) {
-            // TODO appena riusciamo non ci sara' piu' bisogno di fetchare creator a mano. esce dal dao insieme a Event
-            UserDTO creator = ServiceFactory.instance.getUserService().getUserByID(e.getCreator());
+            UserDTO creator = new UserDTO(e.getCreator().getId(), e.getCreator().getName(), e.getCreator().getSurname(), e.getCreator().getType());
             dto.data.add(new EventDTO(e.getId(), e.getTitle(), e.getDescription(), e.getCreated(), e.getEdited(), e.getStart(), e.getEnd(), e.getSubscriptionLimit(), e.getCapacity(), e.getPlace(), e.getType(), creator, e.get_public()));
         }
 

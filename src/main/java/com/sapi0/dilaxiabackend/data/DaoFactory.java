@@ -2,6 +2,7 @@ package com.sapi0.dilaxiabackend.data;
 
 import com.sapi0.dilaxiabackend.data.impl.DaoImpl;
 import com.sapi0.dilaxiabackend.data.impl.EventDaoImpl;
+import com.sapi0.dilaxiabackend.data.impl.SubscriptionDaoImpl;
 import com.sapi0.dilaxiabackend.data.impl.UserDaoImpl;
 
 import javax.naming.NamingException;
@@ -16,11 +17,13 @@ public class DaoFactory {
 
     private UserDaoImpl userDao;
     private EventDaoImpl eventDao;
+    private SubscriptionDaoImpl subscriptionDao;
 
     private DaoFactory() {
         try {
             userDao = new UserDaoImpl();
             eventDao = new EventDaoImpl();
+            subscriptionDao = new SubscriptionDaoImpl();
         } catch (NamingException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
@@ -32,5 +35,6 @@ public class DaoFactory {
         return userDao;
     }
     public EventDaoImpl getEventDao() {return eventDao;}
+    public SubscriptionDaoImpl getSubscriptionDao() {return subscriptionDao;}
 
 }

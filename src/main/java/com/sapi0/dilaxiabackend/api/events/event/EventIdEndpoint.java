@@ -63,7 +63,11 @@ public class EventIdEndpoint extends PathIntegerJsonEndpoint {
     protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, int pathParam, HttpSession session) throws EndpointException {
         requireLoggedIn(session);
 
-        service.deleteEvent(pathParam);
+        try {
+            service.deleteEvent(pathParam);
+        } catch (SQLException e) {
+            throw new EndpointException(499, "boh");
+        }
 
         return DEFAULT_SUCCESS_JSON;
     }

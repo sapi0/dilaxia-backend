@@ -21,13 +21,13 @@ public class UserService {
 
     public UserDTO getUserByID(int userID) throws SQLException {
         User user = dao.get(userID);
-        UserDTO dto = new UserDTO(user.getName(), user.getSurname(), user.getType());
+        UserDTO dto = new UserDTO(user.getId(), user.getName(), user.getSurname(), user.getType());
         return dto;
     }
 
     public UserMeDTO getUserMe(int userID) throws SQLException {
         User user = dao.get(userID);
-        UserMeDTO dto = new UserMeDTO(user.getName(), user.getSurname(), user.getType(), user.getEmail());
+        UserMeDTO dto = new UserMeDTO(user.getId(), user.getName(), user.getSurname(), user.getType(), user.getEmail());
         return dto;
     }
 
@@ -41,7 +41,7 @@ public class UserService {
         dto.totalSize = totalSize;
 
         for(User u : result) {
-            dto.data.add(new UserDTO(u.getName(), u.getSurname(), u.getType()));
+            dto.data.add(new UserDTO(u.getId(), u.getName(), u.getSurname(), u.getType()));
         }
 
         return dto;
@@ -54,14 +54,12 @@ public class UserService {
 
         dao.update(id, updated);
 
-        UserMeDTO dto = new UserMeDTO(updated.getName(), updated.getSurname(), updated.getType(), updated.getEmail());
+        UserMeDTO dto = new UserMeDTO(updated.getId(), updated.getName(), updated.getSurname(), updated.getType(), updated.getEmail());
 
         return dto;
     }
 
-    public void deleteUser(int id) {
-
+    public void deleteUser(int id) throws SQLException {
         dao.delete(id);
-
     }
 }
