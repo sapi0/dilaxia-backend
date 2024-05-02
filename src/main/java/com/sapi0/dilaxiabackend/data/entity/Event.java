@@ -3,7 +3,7 @@ package com.sapi0.dilaxiabackend.data.entity;
 import java.sql.Timestamp;
 
 public class Event {
-    private int id;
+    private Integer id;
     private String title;
     private String description;
     private Timestamp created;
@@ -11,15 +11,15 @@ public class Event {
     private Timestamp start;
     private Timestamp end;
     private Timestamp subscription_limit;
-    private int capacity;
+    private Integer capacity;
     private String place;
-    private int type;
-    private int creator;
-    private boolean _public;
+    private Integer type;
+    private User creator;
+    private Boolean _public;
 
 
 
-    public Event(int id, String title, String description, Timestamp created, Timestamp edited, Timestamp start, Timestamp end, Timestamp subscription_limit, int capacity, String place,int type, int creator, boolean _public ){
+    public Event(Integer id, String title, String description, Timestamp created, Timestamp edited, Timestamp start, Timestamp end, Timestamp subscription_limit, Integer capacity, String place, Integer type, User creator, Boolean _public ){
         this.id = id;
         this.title = title;
         this.description = description;
@@ -37,8 +37,8 @@ public class Event {
 
     }
 
-    public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
+    public Integer getId() {return id;}
+    public void setId(Integer id) {this.id = id;}
 
     public String getTitle() {return title;}
     public void setTitle(String title) {this.title = title;}
@@ -61,20 +61,20 @@ public class Event {
     public Timestamp getSubscriptionLimit() {return subscription_limit;}
     public void setSubscriptionLimit(Timestamp limit) {this.subscription_limit = limit;}
 
-    public int getCapacity() {return capacity;}
-    public void setCapacity(int capacity) {this.capacity = capacity;}
+    public Integer getCapacity() {return capacity;}
+    public void setCapacity(Integer capacity) {this.capacity = capacity;}
 
     public String getPlace() {return place;}
     public void setPlace(String place) {this.place = place;}
 
-    public int getType() {return type;}
-    public void setType(int type) {this.type = type;}
+    public Integer getType() {return type;}
+    public void setType(Integer type) {this.type = type;}
 
-    public int getCreator() {return creator;}
-    public void setCreator(int creator) {this.creator = creator;}
+    public User getCreator() {return creator;}
+    public void setCreator(User creator) {this.creator = creator;}
 
-    public boolean get_public() {return _public;}
-    public void set_public(boolean _public) {this._public = _public;}
+    public Boolean get_public() {return _public;}
+    public void set_public(Boolean _public) {this._public = _public;}
 
 
 

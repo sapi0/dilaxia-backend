@@ -1,7 +1,9 @@
 package com.sapi0.dilaxiabackend.data.impl;
 
+import com.sapi0.dilaxiabackend.data.entity.Event;
 import com.sapi0.dilaxiabackend.data.entity.User;
 import com.sapi0.dilaxiabackend.data.dao.IUserDao;
+import com.sapi0.dilaxiabackend.utils.NullableResultSet;
 
 import javax.naming.NamingException;
 import javax.xml.transform.Result;
@@ -13,35 +15,57 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
 
     private static final String TABLE_NAME = "user";
 
-    private PreparedStatement count, getAllUsers, getUserByID, getUserByEmail, addUser, updateUserByID, deleteUserByID, research;
+    private PreparedStatement count, getUserByID, getUserByEmail, addUser, updateUserByID, deleteUserByID, research;
 
     public UserDaoImpl() throws NamingException, SQLException {
         super();    // necessario
-        initStatements();
     }
 
-    private void initStatements() throws SQLException {
+    protected void initStatements() throws SQLException {
         count = conn.prepareStatement("SELECT COUNT(id) FROM " + TABLE_NAME);
-        getAllUsers = conn.prepareStatement("SELECT * FROM " + TABLE_NAME);
-        getUserByID = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE id = ?");
-        getUserByEmail = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE email = ?");
-        addUser = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(name, surname, email, hash, type) VALUES (?, ?, ?, ?, ?)");
-        updateUserByID = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET id = ? WHERE id = ?");
-        deleteUserByID = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
-
-        research = conn.prepareStatement("SELECT id, name, surname, email, hash, type, created FROM " + TABLE_NAME + " LIMIT ? OFFSET ?");
+        getUserByID = conn.prepareStatement(
+                "SELECT id, name, surname, email, type, created " +
+                    "FROM " + TABLE_NAME + " " +
+                    "WHERE id = ?"
+        );
+        getUserByEmail = conn.prepareStatement(
+                "SELECT id, name, surname, email, hash, type, created " +
+                    "FROM " + TABLE_NAME + " " +
+                    "WHERE email = ?"
+        );
+        addUser = conn.prepareStatement(
+                "INSERT INTO " + TABLE_NAME + "(" +
+                        "name, surname, email, hash, type" +
+                    ") VALUES (?, ?, ?, ?, ?)"
+        );
+        updateUserByID = conn.prepareStatement(
+                "UPDATE " + TABLE_NAME + " " +
+                    "SET name = ?, surname = ? " +
+                    "WHERE id = ?"
+        );
+        deleteUserByID = conn.prepareStatement(
+                "DELETE FROM " + TABLE_NAME + " " +
+                    "WHERE id = ?"
+        );
+        research = conn.prepareStatement(
+                "SELECT id, name, surname, email, hash, type, created " +
+                    "FROM " + TABLE_NAME + " " +
+                    "LIMIT ? OFFSET ?"
+        );
     }
 
-    private User createUserFromResultSet(ResultSet rs) throws SQLException {
-        int _id = rs.getInt(1);
-        String name = rs.getString(2);
-        String surname = rs.getString(3);
-        String email = rs.getString(4);
-        String hash = rs.getString(5);
-        int type = rs.getInt(6);
-        Timestamp created = rs.getTimestamp(7);
+    private User createUser(ResultSet rset) throws SQLException {
+        NullableResultSet rs = new NullableResultSet(rset);
 
-        return new User(_id, name, surname, email, hash, type, created);
+        Integer id = rs.getInt("id");
+        String name = rs.getString("name");
+        String surname = rs.getString("surname");
+        String email = rs.getString("email");
+        String hash = rs.getString("hash");
+        Integer type = rs.getInt("type");
+        Timestamp created = rs.getTimestamp("created");
+
+        return new User(id, name, surname, email, hash, type, created);
     }
 
     @Override
@@ -49,9 +73,12 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
         ResultSet rs = count.executeQuery();
 
         if(rs.next()) {
-            return rs.getInt(1);
+            int result = rs.getInt(1);
+            rs.close();
+            return result;
         }
 
+        rs.close();
         return -1;
     }
 
@@ -59,18 +86,15 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
     public List<User> research(int page, int pageSize) throws SQLException {
         research.setInt(1, pageSize);
         research.setInt(2, (page-1)*pageSize);
-        return null;
-    }
 
-    @Override
-    public List<User> all() throws SQLException {
-        ResultSet rs = getAllUsers.executeQuery();
-
+        ResultSet rs = research.executeQuery();
         List<User> users = new ArrayList<>();
 
-        while(rs.next())
-            users.add(createUserFromResultSet(rs));
+        while(rs.next()){
+            users.add(createUser(rs));
+        }
 
+        rs.close(); // TODO mettere il close a tutti
         return users;
     }
 
@@ -79,9 +103,13 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
         getUserByID.setInt(1, id);
         ResultSet rs = getUserByID.executeQuery();
 
-        if(rs.next())
-            return createUserFromResultSet(rs);
+        if(rs.next()) {
+            User result = createUser(rs);
+            rs.close();
+            return result;
+        }
 
+        rs.close();
         return null;
     }
 
@@ -90,9 +118,13 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
         getUserByEmail.setString(1, email);
         ResultSet rs = getUserByEmail.executeQuery();
 
-        if(rs.next())
-            return createUserFromResultSet(rs);
+        if(rs.next()) {
+            User result = createUser(rs);
+            rs.close();
+            return result;
+        }
 
+        rs.close();
         return null;
     }
 
@@ -108,21 +140,31 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
     }
 
     @Override
-    public void update(int id, User user) {
+    public void update(int id, User user) throws SQLException {
+        updateUserByID.setString(1, user.getName());
+        updateUserByID.setString(2, user.getSurname());
 
+        updateUserByID.setInt(3, id);
+
+        updateUserByID.execute();
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws SQLException {
+        deleteUserByID.setInt(1, id);
 
+        updateUserByID.execute();
     }
 
     @Override
     public void close() throws SQLException {
-        getAllUsers.close();
+        count.close();
         getUserByID.close();
+        getUserByEmail.close();
         addUser.close();
         updateUserByID.close();
         deleteUserByID.close();
+        research.close();
     }
+
 }

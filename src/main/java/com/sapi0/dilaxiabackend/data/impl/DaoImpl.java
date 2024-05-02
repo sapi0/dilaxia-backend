@@ -12,8 +12,10 @@ public abstract class DaoImpl {
 
     public DaoImpl() throws NamingException, SQLException {
         conn = ((DataSource) new InitialContext().lookup("java:/comp/env/jdbc/dilaxia")).getConnection();
+        initStatements();
     }
 
+    protected abstract void initStatements() throws SQLException;
     protected abstract void close() throws SQLException;   // FORSE
 
 }

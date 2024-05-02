@@ -6,7 +6,8 @@ import java.sql.Date;
 
 public class UserMeDTO {
 
-
+    @JsonProperty("id")
+    public int id;
     @JsonProperty("name")
     public String name;
     @JsonProperty("surname")
@@ -16,8 +17,8 @@ public class UserMeDTO {
     @JsonProperty("email")
     public String email;
 
-
-    public UserMeDTO(String name, String surname, Integer type, String email) {
+    public UserMeDTO(int id, String name, String surname, Integer type, String email) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.type = type;

@@ -16,8 +16,6 @@ import java.util.List;
 
 public class EventService {
 
-    private UserService userService;
-
     private EventDaoImpl dao;
 
     public EventService() {
@@ -81,12 +79,14 @@ public class EventService {
         dao.delete(id);
     }
 
+    // TODO @cri fai un controllo per vedere se e' gia' iscritto
     public EventDTO subscribeUser(int eventID, int userID) throws SQLException {
         dao.subscribe(eventID, userID);
 
         return getEventByID(eventID);
     }
 
+    // TODO @cri fai un controllo per vedere se e' gia' iscritto
     public EventDTO unsubscribeUser(int eventID, int userID) throws SQLException {
         dao.unsubscribe(eventID, userID);
 

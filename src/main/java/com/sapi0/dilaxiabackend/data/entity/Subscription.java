@@ -6,31 +6,31 @@ import java.sql.Timestamp;
 
 public class Subscription {
 
-    private int id;
+    private Integer id;
     private Timestamp timestamp;
-    private int event;
-    private int user;
+    private Event event;
+    private User user;
 
-    public Subscription(int id, Timestamp timestamp, int event, int user){
+    public Subscription(Integer id, Timestamp timestamp, Event event, User user){
         this.id = id;
         this.timestamp = timestamp;
         this.event = event;
         this.user = user;
     }
 
-    public int getId() {return id;}
+    public Integer getId() {return id;}
 
-    public void setId(int id) { this.id = id; }
+    public void setId(Integer id) { this.id = id; }
 
     public Timestamp getTimestamp() {return timestamp;}
 
     public void setTimestamp(Timestamp timestamp) { this.timestamp = timestamp; }
 
-    public int getEvent() {return event;}
+    public Event getEvent() {return event;}
 
-    public void setEvent(int event) { this.event = event; }
+    public void setEvent(Event event) { this.event = event; }
 
-    public int getUser() {return user;}
+    public User getUser() {return user;}
 
-    public void setUser(int user) { this.user = user; }
+    public void setUser(User user) { this.user = user; }
 }
