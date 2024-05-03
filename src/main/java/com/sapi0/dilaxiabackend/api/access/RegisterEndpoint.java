@@ -22,14 +22,14 @@ import java.util.regex.Pattern;
 @WebServlet("/register")
 public class RegisterEndpoint extends BasicJsonEndpoint {
 
-    private static final int BCRYPT_COST = 13;
+    public static final int BCRYPT_COST = 13;
 
     private static final String STUDENT_EMAIL_SUFFIX = "@aldini.istruzioneer.it";
     private static final String PROFESSOR_EMAIL_SUFFIX = "@avbo.it";
 
     private static final Pattern REGEX_LETTERS_SPACES = Pattern.compile("^[ A-Za-z]+$");
     private static final Pattern REGEX_EMAIL = Pattern.compile("\\w+([-+.']\\w+)@\\w+([-.]\\w+).\\w+([-.]\\w+)*");
-    private static final Pattern REGEX_PASSWORD = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!?\\-,./*_+=])(?=\\S+$).{8,}$");
+    public static final Pattern REGEX_PASSWORD = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!?\\-,./*_+=])(?=\\S+$).{8,}$");
 
     private UserDaoImpl dao;
 
