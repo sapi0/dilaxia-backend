@@ -17,6 +17,8 @@ import org.json.JSONObject;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import static com.sapi0.dilaxiabackend.utils.Global.*;
+
 public class PasswordEndpoint extends BasicJsonEndpoint {
 
     private UserDaoImpl dao;
@@ -55,9 +57,9 @@ public class PasswordEndpoint extends BasicJsonEndpoint {
             }
 
             assertParam(dto.newPassword, 8, 50, 499);
-            if(!RegisterEndpoint.REGEX_PASSWORD.matcher(dto.newPassword).matches()) throw new IllegalParamException(499, "Password invalid or too weak");
+            if(!REGEX_PASSWORD.matcher(dto.newPassword).matches()) throw new IllegalParamException(499, "Password invalid or too weak");
 
-            String bcryptHashString = BCrypt.withDefaults().hashToString(RegisterEndpoint.BCRYPT_COST, dto.newPassword.toCharArray());
+            String bcryptHashString = BCrypt.withDefaults().hashToString(BCRYPT_COST, dto.newPassword.toCharArray());
             user.setHash(bcryptHashString);
 
             dao.update(user.getId(), user);

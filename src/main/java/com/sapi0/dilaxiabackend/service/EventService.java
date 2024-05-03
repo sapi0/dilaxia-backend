@@ -22,10 +22,8 @@ public class EventService {
         dao = DaoFactory.instance.getEventDao();
     }
 
-    public void createNewEvent(EventCreateDTO dto, int userID, int userType) throws SQLException {
-        int eventType = 0;  // TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-        Event event = new Event(-1, dto.title, dto.description, null, null, dto.start, dto.end, dto.subscription_limit, dto.capacity, dto.place, new User(userID, null, null, null, null, userType, null), dto._public);
+    public void createNewEvent(EventCreateDTO dto, int userID) throws SQLException {
+        Event event = new Event(-1, dto.title, dto.description, null, null, dto.start, dto.end, dto.subscription_limit, dto.capacity, dto.place, new User(userID, null, null, null, null, null, null), dto._public);
 
         dao.add(event);
     }

@@ -40,7 +40,7 @@ public class EventEndpoint extends BasicJsonEndpoint {
         try {
             EventCreateDTO eventData = Mapper.asObject(bodyObject, EventCreateDTO.class);
 
-            service.createNewEvent(eventData, (int)session.getAttribute("id"), (int)session.getAttribute("type"));
+            service.createNewEvent(eventData, (int)session.getAttribute("id"));
 
             return DEFAULT_SUCCESS_JSON;
         } catch(JsonProcessingException e) {

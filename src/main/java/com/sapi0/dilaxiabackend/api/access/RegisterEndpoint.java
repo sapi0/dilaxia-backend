@@ -11,6 +11,7 @@ import com.sapi0.dilaxiabackend.data.impl.UserDaoImpl;
 import com.sapi0.dilaxiabackend.exception.BodyParseException;
 import com.sapi0.dilaxiabackend.exception.EndpointException;
 import com.sapi0.dilaxiabackend.exception.IllegalParamException;
+import com.sapi0.dilaxiabackend.utils.Global;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
@@ -19,17 +20,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+import static com.sapi0.dilaxiabackend.utils.Global.*;
+
 @WebServlet("/register")
 public class RegisterEndpoint extends BasicJsonEndpoint {
-
-    public static final int BCRYPT_COST = 13;
-
-    private static final String STUDENT_EMAIL_SUFFIX = "@aldini.istruzioneer.it";
-    private static final String PROFESSOR_EMAIL_SUFFIX = "@avbo.it";
-
-    private static final Pattern REGEX_LETTERS_SPACES = Pattern.compile("^[ A-Za-z]+$");
-    private static final Pattern REGEX_EMAIL = Pattern.compile("\\w+([-+.']\\w+)@\\w+([-.]\\w+).\\w+([-.]\\w+)*");
-    public static final Pattern REGEX_PASSWORD = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&!?\\-,./*_+=])(?=\\S+$).{8,}$");
 
     private UserDaoImpl dao;
 
@@ -44,10 +38,10 @@ public class RegisterEndpoint extends BasicJsonEndpoint {
     }
 
     public int findAccountType(String email) {
-        int type = 0;
+        int type = USER_TYPE_EXTERNAL;
 
-        if(email.endsWith(STUDENT_EMAIL_SUFFIX)) type = 1;
-        if(email.endsWith(PROFESSOR_EMAIL_SUFFIX)) type = 2;
+        if(email.endsWith(STUDENT_EMAIL_SUFFIX)) type = USER_TYPE_STUDENT;
+        if(email.endsWith(PROFESSOR_EMAIL_SUFFIX)) type = USER_TYPE_PROFESSOR;
 
         return type;
     }

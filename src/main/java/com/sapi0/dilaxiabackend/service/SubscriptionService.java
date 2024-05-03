@@ -8,6 +8,7 @@ import com.sapi0.dilaxiabackend.data.dto.SubscriptionListDTO;
 import com.sapi0.dilaxiabackend.data.entity.Event;
 import com.sapi0.dilaxiabackend.data.entity.Subscription;
 import com.sapi0.dilaxiabackend.data.impl.SubscriptionDaoImpl;
+import com.sapi0.dilaxiabackend.utils.Global;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -46,18 +47,44 @@ public class SubscriptionService {
         return dto;
     }
 
-    // TODO @cri fai un controllo per vedere se e' gia' iscritto
-    public EventDTO subscribeUser(int eventID, int userID) throws SQLException {
+    public EventDTO subscribeUser(int eventID, int userID, int userType) throws SQLException {
+        if(isSubscribed(userID, eventID)) {
+            throw new SQLException();   // TODO gia' iscritto
+        }
+
+        if(userType == Global.USER_TYPE_PROFESSOR) {
+            throw new SQLException();   // TODO sei un prof, non ti puoi iscrivere
+        }
+
+        EventDTO event = ServiceFactory.instance.getEventService().getEventByID(eventID);   // metto qui perche' prima non serve, farebbe solo una chiamata inutile al db se poi esce fuori un throw
+        if(userType == Global.USER_TYPE_EXTERNAL) {
+            if(event.creator.type == Global.USER_TYPE_PROFESSOR) {
+                throw new SQLException();   // TODO sei un esterno, non puoi iscriverti a quelli creati dai prof
+            }
+        }
+
         dao.insertSubscription(eventID, userID);
+
+        return event;
+    }
+
+    public EventDTO unsubscribeUser(int eventID, int userID) throws SQLException {
+        if(!isSubscribed(userID, eventID)) {
+            throw new SQLException();   // TODO non iscritto
+        }
+
+        dao.deleteSubscription(eventID);
 
         return ServiceFactory.instance.getEventService().getEventByID(eventID);
     }
 
-    // TODO @cri fai un controllo per vedere se e' gia' iscritto
-    public EventDTO unsubscribeUser(int eventID, int userID) throws SQLException {
-        dao.deleteSubscription(eventID);
-
-        return ServiceFactory.instance.getEventService().getEventByID(eventID);
+    private boolean isSubscribed(int userID, int eventID) throws SQLException {
+        List<Subscription> subscriptions = dao.getSubscribedUsers(eventID);
+        for(Subscription subscription : subscriptions) {
+            if(subscription.getUser().getId() == userID)
+                return true;
+        }
+        return false;
     }
 
 }

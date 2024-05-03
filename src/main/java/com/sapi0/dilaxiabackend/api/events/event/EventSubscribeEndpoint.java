@@ -36,7 +36,7 @@ public class EventSubscribeEndpoint extends PathIntegerJsonEndpoint {
         requireLoggedIn(session);
 
         try {
-            return Mapper.asJSON(service.subscribeUser(pathParam, (int)session.getAttribute("id")));
+            return Mapper.asJSON(service.subscribeUser(pathParam, (int)session.getAttribute("id"), (int)session.getAttribute("type")));
         } catch (SQLException | JsonProcessingException e) {
             throw new EndpointException(499, "boh");
         }
