@@ -25,7 +25,7 @@ public class EventService {
     public void createNewEvent(EventCreateDTO dto, int userID, int userType) throws SQLException {
         int eventType = 0;  // TODO TODO TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        Event event = new Event(-1, dto.title, dto.description, null, null, dto.start, dto.end, dto.subscription_limit, dto.capacity, dto.place, eventType, new User(userID, null, null, null, null, userType, null), dto._public);
+        Event event = new Event(-1, dto.title, dto.description, null, null, dto.start, dto.end, dto.subscription_limit, dto.capacity, dto.place, new User(userID, null, null, null, null, userType, null), dto._public);
 
         dao.add(event);
     }
@@ -34,7 +34,7 @@ public class EventService {
         Event event = dao.get(eventID);
 
         UserDTO creator = new UserDTO(event.getCreator().getId(), event.getCreator().getName(), event.getCreator().getSurname(), event.getCreator().getType());
-        EventDTO dto = new EventDTO(event.getId(), event.getTitle(), event.getDescription(), event.getCreated(), event.getEdited(), event.getStart(), event.getEnd(), event.getSubscriptionLimit(), event.getCapacity(), event.getPlace(), event.getType(), creator, event.get_public());
+        EventDTO dto = new EventDTO(event.getId(), event.getTitle(), event.getDescription(), event.getCreated(), event.getEdited(), event.getStart(), event.getEnd(), event.getSubscriptionLimit(), event.getCapacity(), event.getPlace(), creator, event.get_public());
 
         return dto;
     }
@@ -48,7 +48,7 @@ public class EventService {
         dao.update(id, updated);
 
         UserDTO creator = new UserDTO(updated.getCreator().getId(), updated.getCreator().getName(), updated.getCreator().getSurname(), updated.getCreator().getType());
-        EventDTO dto = new EventDTO(updated.getId(), updated.getTitle(), updated.getDescription(), updated.getCreated(), updated.getEdited(), updated.getStart(), updated.getEnd(), updated.getSubscriptionLimit(), updated.getCapacity(), updated.getPlace(), updated.getType(), creator, updated.get_public());
+        EventDTO dto = new EventDTO(updated.getId(), updated.getTitle(), updated.getDescription(), updated.getCreated(), updated.getEdited(), updated.getStart(), updated.getEnd(), updated.getSubscriptionLimit(), updated.getCapacity(), updated.getPlace(), creator, updated.get_public());
 
         return dto;
     }
@@ -87,7 +87,7 @@ public class EventService {
 
         for(Event e : result) {
             UserDTO creator = new UserDTO(e.getCreator().getId(), e.getCreator().getName(), e.getCreator().getSurname(), e.getCreator().getType());
-            dto.data.add(new EventDTO(e.getId(), e.getTitle(), e.getDescription(), e.getCreated(), e.getEdited(), e.getStart(), e.getEnd(), e.getSubscriptionLimit(), e.getCapacity(), e.getPlace(), e.getType(), creator, e.get_public()));
+            dto.data.add(new EventDTO(e.getId(), e.getTitle(), e.getDescription(), e.getCreated(), e.getEdited(), e.getStart(), e.getEnd(), e.getSubscriptionLimit(), e.getCapacity(), e.getPlace(), creator, e.get_public()));
         }
 
         return dto;

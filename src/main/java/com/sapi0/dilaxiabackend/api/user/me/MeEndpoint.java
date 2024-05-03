@@ -55,6 +55,8 @@ public class MeEndpoint  extends BasicJsonEndpoint {
     protected JSONObject delete(JSONObject bodyObject, HashMap<String, String> headers, HashMap<String, String> queryParams, HttpSession session) throws EndpointException {
         requireLoggedIn(session);
 
+        // TODO qui ovviamente servono i permessi e non puo' essere cosi' facile eliminare un account
+
         try {
             service.deleteUser((int)session.getAttribute("id"));
         } catch (SQLException e) {

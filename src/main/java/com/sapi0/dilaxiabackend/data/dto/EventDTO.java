@@ -27,15 +27,13 @@ public class EventDTO {
     public int capacity;
     @JsonProperty("place")
     public String place;
-    @JsonProperty("type")
-    public int type;    // TODO: forse questo diventa una stringa per leggibilita' da parte dell'utilizzatore dell'api
     @JsonProperty("creator")
     public UserDTO creator;
     @JsonProperty("public")
     public boolean _public;
 
 
-    public EventDTO(int id, String title, String description, Timestamp created, Timestamp edited, Timestamp start, Timestamp end, Timestamp subscription_limit, int capacity, String place, int type, UserDTO creator, Boolean _public) {
+    public EventDTO(int id, String title, String description, Timestamp created, Timestamp edited, Timestamp start, Timestamp end, Timestamp subscription_limit, int capacity, String place, UserDTO creator, Boolean _public) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -46,7 +44,6 @@ public class EventDTO {
         this.subscription_limit = subscription_limit;
         this.capacity = capacity;
         this.place = place;
-        this.type = type;
         this.creator = creator;
         this._public = _public;
     }

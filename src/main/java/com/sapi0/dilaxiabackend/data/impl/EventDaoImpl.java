@@ -30,7 +30,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
         getEventByID = conn.prepareStatement(
                 "SELECT " +
-                    "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.type, tEvent.public, " +
+                    "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.public, " +
                     "tUser.id userID, tUser.name, tUser.surname, tUser.type userType " +
                     "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id " +
                     "WHERE tEvent.id = ?"
@@ -45,8 +45,8 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
         addEvent = conn.prepareStatement(
                 "INSERT INTO " + TABLE_NAME + "(" +
-                        "title, description, start, end, subscription_limit, capacity, place, creator, type, public" +
-                    ") VALUES(?,?,?,?,?,?,?,?,?,?)"
+                        "title, description, start, end, subscription_limit, capacity, place, creator, public" +
+                    ") VALUES(?,?,?,?,?,?,?,?,?)"
         );
 
         updateEventById = conn.prepareStatement(
@@ -62,7 +62,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
         neutralResearch = conn.prepareStatement(
                 "SELECT " +
-                    "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.type, tEvent.creator, tEvent.public, " +
+                    "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.creator, tEvent.public, " +
                     "tUser.id userID, tUser.name, tUser.surname, tUser.type userType " +
                     "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id " +
                     "WHERE tEvent.end >= current_timestamp() OR 1=? " +
@@ -71,7 +71,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         );
         dailyResearch = conn.prepareStatement(
                 "SELECT " +
-                    "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.type, tEvent.creator, tEvent.public, " +
+                    "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.creator, tEvent.public, " +
                     "tUser.id userID, tUser.name, tUser.surname, tUser.type userType " +
                     "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id " +
                     "WHERE DATE(current_timestamp()) BETWEEN DATE(tEvent.start) AND DATE(tEvent.end) " +
@@ -80,7 +80,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         );
         fullTextResearch = conn.prepareStatement(
                 "SELECT " +
-                    "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.type, tEvent.creator, tEvent.public, " +
+                    "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.creator, tEvent.public, " +
                     "tUser.id userID, tUser.name, tUser.surname, tUser.type userType " +
                     "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id " +
                     "WHERE " +
@@ -103,7 +103,6 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         Timestamp subscription_limit = rs.getTimestamp("subscription_limit");
         Integer capacity = rs.getInt("capacity");
         String place = rs.getString("place");
-        Integer type = rs.getInt("type");
         Boolean _public = rs.getBoolean("public");
         Integer userID = rs.getInt("userID");
         String name = rs.getString("name");
@@ -115,7 +114,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
         User user = new User(userID, name, surname, email, hash, userType, userCreated);
 
-        return new Event(id, title, description, created, edited, start, end, subscription_limit, capacity, place, type, user, _public);
+        return new Event(id, title, description, created, edited, start, end, subscription_limit, capacity, place, user, _public);
     }
 
     @Override
@@ -207,8 +206,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
         addEvent.setInt(6, event.getCapacity());
         addEvent.setString(7, event.getPlace());
         addEvent.setInt(8, event.getCreator().getId()); // .getId() perche' creator e' una entity User
-        addEvent.setInt(9, event.getType());
-        addEvent.setBoolean(10, event.get_public());
+        addEvent.setBoolean(9, event.get_public());
 
         addEvent.execute();
     }

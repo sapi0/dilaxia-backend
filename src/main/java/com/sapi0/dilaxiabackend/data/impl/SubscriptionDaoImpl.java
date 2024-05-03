@@ -59,7 +59,7 @@ public class SubscriptionDaoImpl extends DaoImpl implements ISubscriptionDao {
         String surname = rs.getString("surname");
 
         User user = new User(userID, name, surname, null, null, null, null);
-        Event event = new Event(eventID, title, null, null, null, null, null, null, capacity, null, null, null, null);
+        Event event = new Event(eventID, title, null, null, null, null, null, null, capacity, null, null, null);
 
         return new Subscription(id, timestamp, event, user);
     }

@@ -16,7 +16,6 @@ CREATE TABLE `event` (
   `subscription_limit` timestamp NULL DEFAULT NULL,
   `capacity` int(11) DEFAULT 30,
   `place` text NOT NULL,
-  `type` tinyint(4) NOT NULL,
   `creator` int(11) NOT NULL,
   `public` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
