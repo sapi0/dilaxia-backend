@@ -109,6 +109,44 @@
         }
       }
     },
+    "/password": {
+      "post": {
+        "tags": ["Accesso"],
+        "summary": "Cambio password utente",
+        "description": "Endpoint per effettuare il cambio password dell'utente. I campi verranno controllati.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordChange"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Il cambio password è stato effettuato correttamente senza alcun problema.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultSuccess"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Errore sconosciuto",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/refreshSession": {
       "post": {
         "deprecated": true,
@@ -1114,6 +1152,29 @@
             "type": "string",
             "format": "password",
             "example": "Aldini2017!!",
+            "required": true
+          }
+        }
+      },
+      "PasswordChange": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "sapio.andrea@gmail.com",
+            "required": true
+          },
+          "currentPassword": {
+            "type": "string",
+            "format": "password",
+            "example": "Aldini2017!!",
+            "required": true
+          },
+          "newPassword": {
+            "type": "string",
+            "format": "password",
+            "example": "Aldini2017!!!",
             "required": true
           }
         }
