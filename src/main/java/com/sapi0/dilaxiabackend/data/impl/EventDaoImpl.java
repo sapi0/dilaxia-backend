@@ -146,7 +146,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     }
 
     @Override
-    public List<Event> research(boolean showPast, int page, int pageSize) throws SQLException {
+    public List<Event> research(boolean showPast, int pageSize, int page) throws SQLException {
         neutralResearch.setInt(1, showPast ? 1 : 0);
         neutralResearch.setInt(2, pageSize);
         neutralResearch.setInt(3, (page-1)*pageSize);
@@ -163,7 +163,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     }
 
     @Override
-    public List<Event> research(String query, boolean showPast, int page, int pageSize) throws SQLException {
+    public List<Event> research(String query, boolean showPast, int pageSize, int page) throws SQLException {
         fullTextResearch.setString(1, query);
         fullTextResearch.setInt(2, showPast ? 1 : 0);
         fullTextResearch.setInt(3, pageSize);
@@ -181,7 +181,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
     }
 
     @Override
-    public List<Event> research(DateTime date, int page, int pageSize) throws SQLException {
+    public List<Event> research(DateTime date, int pageSize, int page) throws SQLException {
         dailyResearch.setInt(1, pageSize);
         dailyResearch.setInt(2, (page-1)*pageSize);
 

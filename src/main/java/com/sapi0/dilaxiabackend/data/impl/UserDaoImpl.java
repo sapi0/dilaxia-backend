@@ -83,7 +83,7 @@ public class UserDaoImpl extends DaoImpl implements IUserDao {
     }
 
     @Override
-    public List<User> research(int page, int pageSize) throws SQLException {
+    public List<User> research(int pageSize, int page) throws SQLException {
         research.setInt(1, pageSize);
         research.setInt(2, (page-1)*pageSize);
 
