@@ -31,8 +31,8 @@ public class SubscriptionDaoImpl extends DaoImpl implements ISubscriptionDao {
         count = conn.prepareStatement("SELECT COUNT(id) FROM " + TABLE_NAME);
         listSubscribedByEventId = conn.prepareStatement(
                 "SELECT " +
-                    "tSubs.id, tSubs.timestamp tEvent.id eventID, tEvent.title, tEvent.capacity, tUser.id userID, tUser.name, tUser.surname" +
-                    "FROM " + TABLE_NAME + " tSubs INNER JOIN " + TABLE_EVENT + " tEvent ON tSubs.event = tEvent.eventID INNER JOIN " + TABLE_USER + " tUser ON tSubs.user = tUser.userID" +
+                    "tSubs.id, tSubs.timestamp, tEvent.id eventID, tEvent.title, tEvent.capacity, tUser.id userID, tUser.name, tUser.surname " +
+                    "FROM " + TABLE_NAME + " tSubs INNER JOIN " + TABLE_EVENT + " tEvent ON tSubs.event = tEvent.id INNER JOIN " + TABLE_USER + " tUser ON tSubs.user = tUser.id " +
                     "WHERE tEvent.id = ?"
         );
         subscribeToEvent = conn.prepareStatement(

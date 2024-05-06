@@ -38,6 +38,7 @@ public class EventSubscribeEndpoint extends PathIntegerJsonEndpoint {
         try {
             return Mapper.asJSON(service.subscribeUser(pathParam, (int)session.getAttribute("id"), (int)session.getAttribute("type")));
         } catch (SQLException | JsonProcessingException e) {
+            e.printStackTrace();
             throw new EndpointException(499, "boh");
         }
     }
