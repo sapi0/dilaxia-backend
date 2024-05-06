@@ -2,6 +2,7 @@ package com.sapi0.dilaxiabackend.data;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.sapi0.dilaxiabackend.data.dto.UserUpdateDTO;
 import com.sapi0.dilaxiabackend.data.entity.User;
 import org.json.JSONObject;
@@ -9,6 +10,9 @@ import org.json.JSONObject;
 public class Mapper {
 
     private final static ObjectMapper mapper = new ObjectMapper();
+    static {
+        mapper.registerModule(new JodaModule());
+    }
 
     public static JSONObject asJSON(Object obj) throws JsonProcessingException {
         return new JSONObject(mapper.writeValueAsString(obj));

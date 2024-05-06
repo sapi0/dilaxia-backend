@@ -74,7 +74,7 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
                     "tEvent.id, tEvent.title, tEvent.description, tEvent.created, tEvent.edited, tEvent.start, tEvent.end, tEvent.subscription_limit, tEvent.capacity, tEvent.place, tEvent.creator, tEvent.public, " +
                     "tUser.id userID, tUser.name, tUser.surname, tUser.type userType " +
                     "FROM " + TABLE_NAME + " tEvent INNER JOIN " + TABLE_USER + " tUser ON tEvent.creator = tUser.id " +
-                    "WHERE DATE(current_timestamp()) BETWEEN DATE(tEvent.start) AND DATE(tEvent.end) " +
+                    "WHERE DATE(?) BETWEEN DATE(tEvent.start) AND DATE(tEvent.end) " +
                     "ORDER BY tEvent.start ASC " +
                     "LIMIT ? OFFSET ?"
         );
@@ -182,8 +182,9 @@ public class EventDaoImpl extends DaoImpl implements IEventDao {
 
     @Override
     public List<Event> research(DateTime date, int pageSize, int page) throws SQLException {
-        dailyResearch.setInt(1, pageSize);
-        dailyResearch.setInt(2, (page-1)*pageSize);
+        dailyResearch.setTimestamp(1, new Timestamp(date.getMillis()));
+        dailyResearch.setInt(2, pageSize);
+        dailyResearch.setInt(3, (page-1)*pageSize);
 
         ResultSet rs = dailyResearch.executeQuery();
         List<Event> events = new ArrayList<>();

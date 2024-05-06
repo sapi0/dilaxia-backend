@@ -36,7 +36,7 @@ public class EventsTodayEndpoint extends BasicJsonEndpoint {
 
     @Override
     protected JSONObject get(HashMap<String, String> headers, HashMap<String, String> queryParams, HttpSession session) throws EndpointException {
-        requireLoggedIn(session);
+        //requireLoggedIn(session);
 
         DateTime date = Params.queryToDate(queryParams, "date", null);
         int pageSize = Params.queryToInt(queryParams, "pageSize", 50);
@@ -45,6 +45,7 @@ public class EventsTodayEndpoint extends BasicJsonEndpoint {
         try {
             return Mapper.asJSON(service.research(date, pageSize, page));
         } catch(JsonProcessingException e) {
+            e.printStackTrace();
             throw new BodyParseException(599, "Invalid response object");
         } catch (SQLException e) {
             e.printStackTrace();

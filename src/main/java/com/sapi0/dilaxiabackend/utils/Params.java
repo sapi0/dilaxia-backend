@@ -36,8 +36,9 @@ public class Params {
         DateTime result = null;
         if(queryParams.get(param) != null) {
             try {
-                result = DateTimeFormat.forPattern("dd/MM/uuuu").parseDateTime(queryParams.get(param));
+                result = DateTimeFormat.forPattern("dd/MM/yyyy").parseDateTime(queryParams.get(param));
             } catch(Exception e) {
+                e.printStackTrace();
                 throw new IllegalParamException(499, param + " non e' una data valida");
             }
         }
