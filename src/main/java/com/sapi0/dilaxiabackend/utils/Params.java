@@ -1,6 +1,8 @@
 package com.sapi0.dilaxiabackend.utils;
 
 import com.sapi0.dilaxiabackend.exception.IllegalParamException;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.HashMap;
 
@@ -30,4 +32,15 @@ public class Params {
         return result;
     }
 
+    public static DateTime queryToDate(HashMap<String, String> queryParams, String param, DateTime defaultParam) throws IllegalParamException {
+        DateTime result = null;
+        if(queryParams.get(param) != null) {
+            try {
+                result = DateTimeFormat.forPattern("dd/MM/uuuu").parseDateTime(queryParams.get(param));
+            } catch(Exception e) {
+                throw new IllegalParamException(499, param + " non e' una data valida");
+            }
+        }
+        return result;
+    }
 }

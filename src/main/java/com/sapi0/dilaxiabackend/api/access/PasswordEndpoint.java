@@ -11,6 +11,7 @@ import com.sapi0.dilaxiabackend.data.impl.UserDaoImpl;
 import com.sapi0.dilaxiabackend.exception.AccessException;
 import com.sapi0.dilaxiabackend.exception.EndpointException;
 import com.sapi0.dilaxiabackend.exception.IllegalParamException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 
@@ -19,6 +20,7 @@ import java.util.HashMap;
 
 import static com.sapi0.dilaxiabackend.utils.Global.*;
 
+@WebServlet("/password")
 public class PasswordEndpoint extends BasicJsonEndpoint {
 
     private UserDaoImpl dao;
