@@ -82,7 +82,13 @@ public abstract class JsonEndpoint extends HttpServlet {
         response.setContentType("application/json");
 
         String rawBody = IOUtils.toString(request.getReader());
-        JSONObject bodyObject = new JSONObject(rawBody);
+        JSONObject bodyObject;
+        try {
+            bodyObject = new JSONObject(rawBody);
+        } catch(Exception e) {
+            bodyObject = new JSONObject();
+        }
+
 
         HashMap<String, String> headers = findHeaders(request);
 
@@ -106,7 +112,12 @@ public abstract class JsonEndpoint extends HttpServlet {
         response.setContentType("application/json");
 
         String rawBody = IOUtils.toString(request.getReader());
-        JSONObject bodyObject = new JSONObject(rawBody);
+        JSONObject bodyObject;
+        try {
+            bodyObject = new JSONObject(rawBody);
+        } catch(Exception e) {
+            bodyObject = new JSONObject();
+        }
 
         HashMap<String, String> headers = findHeaders(request);
 
@@ -130,7 +141,12 @@ public abstract class JsonEndpoint extends HttpServlet {
         response.setContentType("application/json");
 
         String rawBody = IOUtils.toString(request.getReader());
-        JSONObject bodyObject = new JSONObject(rawBody);
+        JSONObject bodyObject;
+        try {
+            bodyObject = new JSONObject(rawBody);
+        } catch(Exception e) {
+            bodyObject = new JSONObject();
+        }
 
         HashMap<String, String> headers = findHeaders(request);
 
