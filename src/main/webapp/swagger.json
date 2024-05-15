@@ -1204,19 +1204,167 @@
       "Event": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "example": 152,
+            "required": true
+          },
+          "title": {
+            "type": "string",
+            "example": "40000 leghe sotto i mari",
+            "required": true
+          },
+          "description": {
+            "type": "string",
+            "example": "Il libro narra la storia di...",
+            "required": true
+          },
+          "created": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "15/05/2024 11:04",
+            "required": true
+          },
+          "edited": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "16/04/2024 14:08",
+            "required": true
+          },
+          "start": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "10/03/1024 8:30",
+            "required": true
+          },
+          "end": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "25/05/2024 10:00",
+            "required": true
+          },
+          "subscription_limit": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "20/05/2024 8:00",
+            "required": true
+          },
+          "capacity": {
+            "type": "integer",
+            "example": 15,
+            "required": true
+          },
+          "place": {
+            "type": "string",
+            "example": "via riva reno",
+            "required": true
+          },
+          "type": {
+            "type": "integer",
+            "example": "",
+            "required": true
+          },
+          "creator": {
+            "type": "UserDTO",
+            "example": "",
+            "required": true
+          },
+          "_public": {
+            "type": "boolean",
+            "example": "true",
+            "required": true
+          }
+
+
+
+
 
         }
       },
       "EventUpdate": {
         "type": "object",
         "properties": {
-
+          "title": {
+            "type": "Sting",
+            "example": "Il GGG",
+            "required": true
+          },
+          "description": {
+            "type": "String",
+            "example": "é la gara nazionale ...",
+            "required": true
+          },
+          "start": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "12/03/2024 10:00",
+            "required": true
+          },
+          "end": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "20/03/2024 10:00",
+            "required": true
+          },
+          "subscription_limit": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "19/03/2024 10:00",
+            "required": true
+          },
+          "place": {
+            "type": "string",
+            "example": "via tizio tizio 20",
+            "required": true
+          },
+          "_public": {
+            "type": "boolean",
+            "example": "false",
+            "required": true
+          }
         }
       },
       "EventCreate": {
         "type": "object",
         "properties": {
-
+          "title": {
+            "type": "Sting",
+            "example": "Il GGG",
+            "required": true
+          },
+          "description": {
+            "type": "String",
+            "example": "é la gara nazionale ...",
+            "required": true
+          },
+          "start": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "12/03/2024 10:00",
+            "required": true
+          },
+          "end": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "20/03/2024 10:00",
+            "required": true
+          },
+          "subscription_limit": {
+            "type": "integer",
+            "format": "timestamp",
+            "example": "19/03/2024 10:00",
+            "required": true
+          },
+          "place": {
+            "type": "string",
+            "example": "via tizio tizio 20",
+            "required": true
+          },
+          "_public": {
+            "type": "boolean",
+            "example": "false",
+            "required": true
+          }
         }
       },
       "EventList": {
@@ -1225,11 +1373,6 @@
           "totalSize": {
             "type": "integer",
             "example": 734,
-            "required": true
-          },
-          "pageCount": {
-            "type": "integer",
-            "example": 15,
             "required": true
           },
           "pageSize": {
@@ -1256,19 +1399,72 @@
       "User": {
         "type": "object",
         "properties": {
-
+          "id": {
+            "type": "integer",
+            "example": 123,
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "example": "Andrea",
+            "required": true
+          },
+          "surname": {
+            "type": "string",
+            "example": "Sapio",
+            "required": true
+          },
+          "type": {
+            "type": "integer",
+            "example": "studente",
+            "required": true
+          }
         }
       },
       "UserUpdate": {
         "type": "object",
         "properties": {
-
+          "name": {
+            "type": "string",
+            "example": "Andrea",
+            "required": true
+          },
+          "surname": {
+            "type": "string",
+            "example": "Sapio",
+            "required": true
+          }
         }
       },
       "UserMe": {
         "type": "object",
         "properties": {
-
+          "id": {
+            "type": "integer",
+            "example": 123,
+            "required": true
+          },
+          "name": {
+            "type": "string",
+            "example": "Andrea",
+            "required": true
+          },
+          "surname": {
+            "type": "string",
+            "example": "Sapio",
+            "required": true
+          },
+          "type": {
+            "type": "integer",
+            "example": "studente",
+            "required": true
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "andrea.sapio@gmail.com",
+            "required": true
+          }
         }
       },
       "UserList": {
@@ -1305,13 +1501,22 @@
       "DefaultSuccess": {
         "type": "object",
         "properties": {
+          "message": {
+            "type": "string",
+            "example": "Success!",
+            "required": true
+          },
 
         }
       },
       "DefaultError": {
         "type": "object",
         "properties": {
-
+          "error": {
+            "type": "string",
+            "example": "Not implemented.",
+            "required": true
+          }
         }
       }
     }

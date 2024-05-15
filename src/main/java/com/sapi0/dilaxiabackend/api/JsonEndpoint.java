@@ -28,6 +28,7 @@ public abstract class JsonEndpoint extends HttpServlet {
         if(headerNames != null) {
             while(headerNames.hasMoreElements()) {
                 String headerName = headerNames.nextElement();
+                System.out.println(headerName);
                 headers.put(headerName, request.getHeader(headerName));
             }
         }

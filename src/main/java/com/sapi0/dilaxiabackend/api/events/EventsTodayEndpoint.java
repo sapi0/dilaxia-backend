@@ -36,12 +36,13 @@ public class EventsTodayEndpoint extends BasicJsonEndpoint {
 
     @Override
     protected JSONObject get(HashMap<String, String> headers, HashMap<String, String> queryParams, HttpSession session) throws EndpointException {
-        requireLoggedIn(session);
+        System.out.println(headers.get("date"));requireLoggedIn(session);
 
         DateTime date;
         if(!headers.containsKey("date"))
             throw new IllegalParamException(499, "No research date is specified in the headers");
         try {
+
             date = DateTimeFormat.forPattern("dd/MM/uuuu").parseDateTime(headers.get("date"));
         } catch(Exception e) {
             throw new IllegalParamException(499, "Unable to parse the research date");
