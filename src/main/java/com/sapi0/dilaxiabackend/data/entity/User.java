@@ -11,7 +11,8 @@ public class User {
     private String hash;
     private Integer type;
     private Timestamp created;
-
+    
+//costruttori
     public User(Integer id, String name, String surname, String email, String hash, Integer type, Timestamp created) {
         this.id = id;
         this.name = name;
@@ -21,7 +22,8 @@ public class User {
         this.type = type;
         this.created = created;
     }
-
+    
+//get and setter
     public Integer getId() {
         return id;
     }
