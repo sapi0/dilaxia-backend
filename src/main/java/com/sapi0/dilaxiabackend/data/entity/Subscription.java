@@ -2,16 +2,16 @@ package com.sapi0.dilaxiabackend.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import java.sql.Timestamp;
+import java.sql.LocalDateTime;
 
 public class Subscription {
 
     private Integer id;
-    private Timestamp timestamp;
+    private LocalDateTime timestamp;
     private Event event;
     private User user;
 
-    public Subscription(Integer id, Timestamp timestamp, Event event, User user){
+    public Subscription(Integer id, LocalDateTime timestamp, Event event, User user){
         this.id = id;
         this.timestamp = timestamp;
         this.event = event;
@@ -22,7 +22,7 @@ public class Subscription {
 
     public void setId(Integer id) { this.id = id; }
 
-    public Timestamp getTimestamp() {return timestamp;}
+    public LocalDateTime getTimestamp() {return timestamp;}
 
     public void setTimestamp(Timestamp timestamp) { this.timestamp = timestamp; }
 
