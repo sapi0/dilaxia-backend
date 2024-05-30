@@ -10,7 +10,8 @@ public class Subscription {
     private Timestamp timestamp;
     private Event event;
     private User user;
-
+    
+//costruttori
     public Subscription(Integer id, Timestamp timestamp, Event event, User user){
         this.id = id;
         this.timestamp = timestamp;
@@ -18,6 +19,7 @@ public class Subscription {
         this.user = user;
     }
 
+//getter and setter
     public Integer getId() {return id;}
 
     public void setId(Integer id) { this.id = id; }
