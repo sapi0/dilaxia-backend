@@ -17,7 +17,7 @@ public class Event {
     private Boolean _public;
 
 
-
+// Costruttori 
     public Event(Integer id, String title, String description, Timestamp created, Timestamp edited, Timestamp start, Timestamp end, Timestamp subscription_limit, Integer capacity, String place, User creator, Boolean _public ){
         this.id = id;
         this.title = title;
@@ -34,8 +34,9 @@ public class Event {
 
 
     }
-
-    public Integer getId() {return id;}
+// getter and setter
+    
+   public Integer getId() {return id;}
     public void setId(Integer id) {this.id = id;}
 
     public String getTitle() {return title;}
