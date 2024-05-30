@@ -18,7 +18,7 @@ public class Subscription {
         this.user = user;
     }
 
-    public Integer getId() {return id;}h
+    public Integer getId() {return id;}
 
     public void setId(Integer id) { this.id = id; }
 
